@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:1.15-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./src:/var/www/html
+      # - ./static:/var/www/static
+      # - ./data/certbot/conf:/etc/letsencrypt
+      # - ./data/certbot/www:/var/www/certbot
+    restart: always
+
+  # run certbot to automatically renew certificates
+  # commented for now, because I don't have a domain name yet
+  # certbot:
+  #   image: certbot/certbot
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./data/certbot/conf:/etc/letsencrypt
+  #     - ./data/certbot/www:/var/www/certbot
+  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www/html
+    restart: always
+
+  db:
+    image: mysql
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/:ro
+      - db_data:/var/lib/mysql
+
+
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: yasbs
+    restart: always
+
+volumes:
+  db_data:
