@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/html/header.php';
 
-$user = 'root';
-$pass = 'password';
+$user = getenv('MYSQL_USER');
+$pass = getenv('MYSQL_PASSWORD');
 $dbh = new PDO('mysql:host=db;dbname=yasbs', $user, $pass);
 $stmt = $dbh->prepare('SELECT * FROM books');
 $stmt->execute();

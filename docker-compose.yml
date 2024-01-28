@@ -29,6 +29,10 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./src:/var/www/html
+    
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     restart: always
 
   db:
@@ -39,8 +43,8 @@ services:
 
 
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: yasbs
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     restart: always
 
 volumes:
