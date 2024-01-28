@@ -2,8 +2,42 @@
 
 USE yasbs;
 
-INSERT INTO `books` (`TITLE`, `DESCRIPTION`, `PRICE`) VALUES
-("The Great Gatsby", "The Great Gatsby is a 1925 novel written by American author F. Scott Fitzgerald that follows a cast of characters living in the fictional towns of West Egg and East Egg on prosperous Long Island in the summer of 1922. The story primarily concerns the young and mysterious millionaire Jay Gatsby and his quixotic passion and obsession with the beautiful former debutante Daisy Buchanan. Considered to be Fitzgerald's magnum opus, The Great Gatsby explores themes of decadence, idealism, resistance to change, social upheaval, and excess, creating a portrait of the Jazz Age or the Roaring Twenties that has been described as a cautionary tale regarding the American Dream.", 999),
-("The Catcher in the Rye", "The Catcher in the Rye is a story by J. D. Salinger, partially published in serial form in 1945–1946 and as a novel in 1951. It was originally intended for adults but is often read by adolescents for its themes of angst, alienation, and as a critique on superficiality in society. It has been translated widely. Around 1 million copies are sold each year, with total sales of more than 65 million books. The novel's protagonist Holden Caulfield has become an icon for teenage rebellion. The novel also deals with complex issues of innocence, identity, belonging, loss, and connection.", 799),
-("The Grapes of Wrath", "The Grapes of Wrath is an American realist novel written by John Steinbeck and published in 1939. The book won the National Book Award and Pulitzer Prize for fiction, and it was cited prominently when Steinbeck was awarded the Nobel Prize in 1962. Set during the Great Depression, the novel focuses on the Joads, a poor family of tenant farmers driven from their Oklahoma home by drought, economic hardship, agricultural industry changes, and bank foreclosures forcing tenant farmers out of work. Due to their nearly hopeless situation, and in part because they are trapped in the Dust Bowl, the Joads set out for California. Along with thousands of other Okies, they seek jobs, land, dignity, and a future.", 899),
-("To Kill a Mockingbird", "To Kill a Mockingbird is a novel by Harper Lee published in 1960. Instantly successful, widely read in high schools.", 1099);
+INSERT INTO `books` (`title`, `author`, `description`, `price`, `image`) VALUES
+(
+    "The shellcoder's handbook",
+    "Chris Anley, Gerardo Richarte, Felix Lindner, John Heasman",
+    "The black hats have kept up with security enhancements. Have you?
+In the technological arena, three years is a lifetime. Since the first edition of this book was published in 2004, built-in security measures on compilers and operating systems have become commonplace, but are still far from perfect. Arbitrary-code execution vulnerabilities still allow attackers to run code of their choice on your system - with disastrous results.",
+    4597,
+    "/static/shellcoder_handbook.jpg"
+),
+(
+    "Deep work",
+    "Cal Newport",
+    "Deep work is the ability to focus without distraction on a cognitively demanding task. It's a skill that allows you to quickly master complicated information and produce better results in less time. Deep Work will make you better at what you do and provide the sense of true fulfillment that comes from craftsmanship. In short, deep work is like a super power in our increasingly competitive twenty-first century economy. And yet, most people have lost the ability to go deep-spending their days instead in a frantic blur of e-mail and social media, not even realizing there's a better way.
+
+In Deep Work, author and professor Cal Newport flips the narrative on impact in a connected age. Instead of arguing distraction is bad, he instead celebrates the power of its opposite. Dividing this book into two parts, he first makes the case that in almost any profession, cultivating a deep work ethic will produce massive benefits. He then presents a rigorous training regimen, presented as a series of four rules, for transforming your mind and habits to support this skill.",
+    1968,
+    "/static/deep_work.jpg"
+),
+(
+    "The Great Gatsby",
+    "F. Scott Fitzgerald",
+    "The Great Gatsby is a 1925 novel written by American author F. Scott Fitzgerald that follows a cast of characters living in the fictional towns of West Egg and East Egg on prosperous Long Island in the summer of 1922. The story primarily concerns the young and mysterious millionaire Jay Gatsby and his quixotic passion and obsession with the beautiful former debutante Daisy Buchanan. Considered to be Fitzgerald's magnum opus, The Great Gatsby explores themes of decadence, idealism, resistance to change, social upheaval, and excess, creating a portrait of the Jazz Age or the Roaring Twenties that has been described as a cautionary tale regarding the American Dream.",
+    999,
+    "/static/the_great_gatsby.jpg"
+),
+(
+    "Practical foundations for programming languages",
+    "Robert Harper",
+    "My purpose in writing this book is to establish a comprehensive framework for formulating and analyzing a broad range of ideas in programming languages. If language design and programming methodology are to advance from a trade-craft to a rigorous discipline, it is essential that we first get the definitions right. Then, and only then, can there be meaningful analysis and consolidation of ideas. My hope is that I have helped to build such a foundation.",
+    5467,
+    "/static/pfpl.jpg"
+),
+(
+    "TCP/IP illustrated - Volume 1",
+    "William Richard (Rich) Stevens",
+    "TCP/IP Illustrated, Volume 1, Second Edition,is a detailed and visual guide to today's TCP/IP protocol suite. Fully updated for the newest innovations, it demonstrates each protocol in action through realistic examples from modern Linux, Windows, and Mac OS environments. There's no better way to discover why TCP/IP works as it does, how it reacts to common conditions, and how to apply it in your own applications and networks.",
+    4149,
+    "/static/tcp_ip_1.jpg"
+);

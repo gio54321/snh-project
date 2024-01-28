@@ -11,7 +11,9 @@ CREATE TABLE IF NOT EXISTS `users`(
 CREATE TABLE IF NOT EXISTS `books`(
     `id` INT NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(200) NOT NULL,
+    `author` VARCHAR(200) NOT NULL,
     `description` TEXT DEFAULT NULL, 
     `price` INT NOT NULL, -- price in cents
+    `image` VARCHAR(200) DEFAULT NULL, -- image url
     PRIMARY KEY (`id`)
 ) CHARACTER SET=utf8mb4;
