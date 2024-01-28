@@ -1,12 +1,64 @@
 <?php
-require_once __DIR__ . '/html/header.php';
+
+require_once __DIR__ . '/utils.php';
 
 $error = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $error = "Error in the login";
+
+function do_login()
+{
+    global $error;
+
+    if (
+        !isset($_POST['username']) ||
+        !isset($_POST['password'])
+    ) {
+        $error = "Missing fields";
+        return;
+    }
+
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    if (
+        !is_string($username) ||
+        !is_string($password)
+    ) {
+        $error = "Invalid fields";
+        return;
+    }
+    // TODO check password strength
+
+    $user = execute_query('SELECT * FROM users WHERE username = :username', [
+        'username' => $username
+    ])->fetch();
+
+    if (!$user) {
+        $error = "Invalid credentials";
+        return;
+    }
+
+    if (!password_verify($password, $user['password'])) {
+        // TODO handle password verification error and locking logic
+        $error = "Invalid credentials";
+        return;
+    }
+
+    // create a new session
+    session_start();
+
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['username'] = $user['username'];
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+    header('Location: /');
+    exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    do_login();
+}
 
+require_once __DIR__ . '/html/header.php';
 ?>
 
 <div class="h-screen flex items-center justify-center pb-32">
@@ -22,8 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form action="/login.php" method="post">
             <div class="mb-6">
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email address</label>
-                <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="mario.rossi@example.com" required>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
+                <input type="username" id="username" name="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="mario.rossi@example.com" required>
             </div>
             <div class="mb-6">
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>

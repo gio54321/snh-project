@@ -26,3 +26,8 @@ function execute_query($query, $params = [])
     $stmt->execute($params);
     return $stmt;
 }
+
+function is_logged_in()
+{
+    return isset($_SESSION['user_id']);
+}

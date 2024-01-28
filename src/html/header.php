@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../utils.php';
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,9 +72,19 @@
           <li>
             <a href="/" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Home</a>
           </li>
-          <li>
-            <a href="/login.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Login</a>
-          </li>
+          <?php if (!is_logged_in()) { ?>
+            <li>
+              <a href="/login.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Login</a>
+            </li>
+          <?php } else { ?>
+            <li>
+              <a href="/profile.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Profile</a>
+            </li>
+            <li>
+              <a href="/logout.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Logout</a>
+            </li>
+          <?php } ?>
+
         </ul>
       </div>
     </div>

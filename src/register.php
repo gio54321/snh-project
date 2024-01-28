@@ -1,10 +1,67 @@
 <?php
-require_once __DIR__ . '/html/header.php';
+
+require_once __DIR__ . '/utils.php';
 
 $error = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $error = "Error in the registration";
+
+function do_register()
+{
+    global $error;
+
+    if (
+        !isset($_POST['username']) ||
+        !isset($_POST['email']) ||
+        !isset($_POST['password']) ||
+        !isset($_POST['confirm_password'])
+    ) {
+        $error = "Missing fields";
+        return;
+    }
+
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    if (
+        !is_string($username) ||
+        !is_string($email) ||
+        !is_string($password) ||
+        !is_string($confirm_password)
+    ) {
+        $error = "Invalid fields";
+        return;
+    }
+
+    if ($password !== $confirm_password) {
+        $error = "Passwords do not match";
+        return;
+    }
+
+    // TODO check password strength
+
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    $result = execute_query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', [
+        'username' => $username,
+        'email' => $email,
+        'password' => $hashed_password
+    ]);
+
+    if (!$result) {
+        $error = "Error in the registration";
+        return;
+    }
+
+    header('Location: /login.php');
+    exit;
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    do_register();
+}
+
+require_once __DIR__ . '/html/header.php';
 ?>
 
 <div class="h-screen flex items-center justify-center pb-32">
@@ -20,12 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form action="/register.php" method="post">
             <div class="mb-6">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
-                <input type="name" id="name" name="name" , class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Mario" required>
-            </div>
-            <div class="mb-6">
-                <label for="surname" class="block mb-2 text-sm font-medium text-gray-900">Surname</label>
-                <input type="surname" id="surname" name="surname" , class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Rossi" required>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
+                <input type="username" id="username" name="username" , class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Mario" required>
             </div>
             <div class="mb-6">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email address</label>
