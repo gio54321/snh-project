@@ -1,9 +1,7 @@
 <?php
 require_once __DIR__ . '/utils.php';
 
-
 $books = execute_query('SELECT * FROM books')->fetchAll();
-
 require_once __DIR__ . '/html/header.php';
 ?>
 
@@ -11,16 +9,18 @@ require_once __DIR__ . '/html/header.php';
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
         <?php foreach ($books as $book) { ?>
             <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
-                <a href="#">
-                    <img class="p-8 rounded-t-lg" src="/static/the_great_gatsby.jpg" alt="product image" />
-                </a>
+                <div class="grid place-items-center">
+                    <a href="/book.php?id=<?php echo $book['id'] ?>">
+                        <img class="p-8 rounded-t-lg h-96" src="<?php echo $book["image"] ?>" alt="product image" />
+                    </a>
+                </div>
                 <div class="px-5 pb-5">
-                    <a href="#">
+                    <a href="/book.php?id=<?php echo $book['id'] ?>">
                         <h5 class="text-xl font-semibold tracking-tight text-gray-900">
                             <?php echo $book['title'] ?>
                         </h5>
                     </a>
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between mt-4">
                         <span class="text-3xl text-gray-900">
                             <?php echo $book['price'] / 100 ?> €
                         </span>
