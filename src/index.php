@@ -1,12 +1,10 @@
 <?php
-require_once __DIR__ . '/html/header.php';
+require_once __DIR__ . '/utils.php';
 
-$user = getenv('MYSQL_USER');
-$pass = getenv('MYSQL_PASSWORD');
-$dbh = new PDO('mysql:host=db;dbname=yasbs', $user, $pass);
-$stmt = $dbh->prepare('SELECT * FROM books');
-$stmt->execute();
-$books = $stmt->fetchAll();
+
+$books = execute_query('SELECT * FROM books')->fetchAll();
+
+require_once __DIR__ . '/html/header.php';
 ?>
 
 <div class="flex items-center justify-center mt-10 mb-10">
