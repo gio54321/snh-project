@@ -12,6 +12,15 @@ In the technological arena, three years is a lifetime. Since the first edition o
     "/static/shellcoder_handbook.jpg"
 ),
 (
+    "The Moonmath Manual",
+    "LeastAuthority",
+    "The MoonMath Manual is a resource for anyone interested in understanding and unlocking the potential of zk-SNARKs, from beginners to experts.
+The acronym zk-SNARK stands for Zero-Knowledge Succinct Non-Interactive Argument of Knowledge, and refers to a cryptographic technique where one can prove correct execution of computation and possession of certain information without revealing the information itself. Zk-SNARKs, a type of zero-knowledge proof, offer a new paradigm for privacy, and have been used to enable private blockchain transactions. They also have the potential to securely scale blockchain-based solutions.
+As users go through the manual, they will grasp mathematical concepts that are not only used in SNARKs, but also in other zero-knowledge proofs and cryptography more generally.",
+    3298,
+    "/static/moonmath.webp"
+),
+(
     "Deep work",
     "Cal Newport",
     "Deep work is the ability to focus without distraction on a cognitively demanding task. It's a skill that allows you to quickly master complicated information and produce better results in less time. Deep Work will make you better at what you do and provide the sense of true fulfillment that comes from craftsmanship. In short, deep work is like a super power in our increasingly competitive twenty-first century economy. And yet, most people have lost the ability to go deep-spending their days instead in a frantic blur of e-mail and social media, not even realizing there's a better way.
@@ -19,13 +28,6 @@ In the technological arena, three years is a lifetime. Since the first edition o
 In Deep Work, author and professor Cal Newport flips the narrative on impact in a connected age. Instead of arguing distraction is bad, he instead celebrates the power of its opposite. Dividing this book into two parts, he first makes the case that in almost any profession, cultivating a deep work ethic will produce massive benefits. He then presents a rigorous training regimen, presented as a series of four rules, for transforming your mind and habits to support this skill.",
     1968,
     "/static/deep_work.jpg"
-),
-(
-    "The Great Gatsby",
-    "F. Scott Fitzgerald",
-    "The Great Gatsby is a 1925 novel written by American author F. Scott Fitzgerald that follows a cast of characters living in the fictional towns of West Egg and East Egg on prosperous Long Island in the summer of 1922. The story primarily concerns the young and mysterious millionaire Jay Gatsby and his quixotic passion and obsession with the beautiful former debutante Daisy Buchanan. Considered to be Fitzgerald's magnum opus, The Great Gatsby explores themes of decadence, idealism, resistance to change, social upheaval, and excess, creating a portrait of the Jazz Age or the Roaring Twenties that has been described as a cautionary tale regarding the American Dream.",
-    999,
-    "/static/the_great_gatsby.jpg"
 ),
 (
     "Practical foundations for programming languages",
@@ -40,4 +42,11 @@ In Deep Work, author and professor Cal Newport flips the narrative on impact in 
     "TCP/IP Illustrated, Volume 1, Second Edition,is a detailed and visual guide to today's TCP/IP protocol suite. Fully updated for the newest innovations, it demonstrates each protocol in action through realistic examples from modern Linux, Windows, and Mac OS environments. There's no better way to discover why TCP/IP works as it does, how it reacts to common conditions, and how to apply it in your own applications and networks.",
     4149,
     "/static/tcp_ip_1.jpg"
+),
+(
+    "An introduction to mathematical cryptography",
+    "Jeffrey Hoffstein",
+    "This self-contained introduction to modern cryptography emphasizes the mathematics behind the theory of public key cryptosystems and digital signature schemes. The book focuses on these key topics while developing the mathematical tools needed for the construction and security analysis of diverse cryptosystems. Only basic linear algebra is required of the reader; techniques from algebra, number theory, and probability are introduced and developed as required. This text provides an ideal introduction for mathematics and computer science students to the mathematical foundations of modern cryptography. The book includes an extensive bibliography and index; supplementary materials are available online.",
+    5884,
+    "/static/crypto.jpg"
 );
