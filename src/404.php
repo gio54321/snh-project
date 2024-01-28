@@ -1,6 +1,4 @@
-<?php
-require_once __DIR__ . '/html/header.php';
-?>
+<?php require_once __DIR__ . '/html/header.php' ?>
 
 <div class="flex items-center justify-center mt-10">
     <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow">
