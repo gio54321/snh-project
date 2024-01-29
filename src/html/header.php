@@ -13,7 +13,7 @@ session_start();
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Michroma">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
-  <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
+  <link rel="shortcut icon" href="/static/favicon.ico" />
 
   <title>YASBS</title>
 </head>
