@@ -12,6 +12,7 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Michroma">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/static/cart.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
   <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
 
@@ -90,6 +91,9 @@ session_start();
               <a href="/logout.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Logout</a>
             </li>
           <?php } ?>
+          <li>
+            <a href="/cart.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Cart</a>
+          </li>
 
         </ul>
       </div>
