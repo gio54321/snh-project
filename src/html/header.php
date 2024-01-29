@@ -14,7 +14,7 @@ session_start();
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/static/cart.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
-  <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
+  <link rel="shortcut icon" href="/static/favicon.ico" />
 
   <title>YASBS</title>
 </head>
