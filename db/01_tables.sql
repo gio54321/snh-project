@@ -17,3 +17,18 @@ CREATE TABLE IF NOT EXISTS `books`(
     `image` VARCHAR(200) DEFAULT NULL, -- image url
     PRIMARY KEY (`id`)
 ) CHARACTER SET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `checkout`(
+    `user_id` INT NOT NULL,
+    `date` TIMESTAMP NOT NULL,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
+    PRIMARY KEY (`user_id`)
+) CHARACTER SET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `checkout_details`(
+    `user_id` INT NOT NULL,
+    `book_id` INT NOT NULL,
+    `quantity` INT NOT NULL,
+    FOREIGN KEY (`user_id`) REFERENCES `checkout`(`user_id`),
+    FOREIGN KEY (`book_id`) REFERENCES `books`(`id`),
+) CHARACTER SET=utf8mb4;

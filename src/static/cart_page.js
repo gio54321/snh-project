@@ -101,12 +101,9 @@ function updateTotal() {
 }
 
 function checkout() {
-    var items = getItems();
-    var body = JSON.stringify(items);
-
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/checkout.php");
-    xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onload = () => {
         if (xhr.readyState == 4 && xhr.status == 200) {
             window.location = "/checkout.php";
@@ -116,7 +113,7 @@ function checkout() {
             console.log(`Error: ${xhr.status}`);
         }
     };
-    xhr.send(body);
+    xhr.send("items=" + __getCart().toJson());
 }
 
 buildTable()
