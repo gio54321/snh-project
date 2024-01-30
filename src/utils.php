@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('UTC');
 
 // restrict access to this file to only be accessed by including it
 if (count(get_included_files()) == ((version_compare(PHP_VERSION, '5.0.0', '>=')) ? 1 : 0)) {
@@ -31,5 +32,4 @@ function execute_query($query, $params = [])
 function is_logged_in()
 {
     return isset($_SESSION['user_id']);
-    //return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
 }
