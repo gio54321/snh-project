@@ -38,6 +38,11 @@ function do_register()
         return;
     }
 
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email";
+        return;
+    }
+
     // TODO check password strength
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);

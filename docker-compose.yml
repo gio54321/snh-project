@@ -33,6 +33,8 @@ services:
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      SENDGRID_EMAIL: ${SENDGRID_EMAIL}
     restart: always
 
   db:

@@ -1,5 +1,15 @@
 <?php
 
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+//Load Composer's autoloader
+require 'vendor/autoload.php';
+
+
 // restrict access to this file to only be accessed by including it
 if (count(get_included_files()) == ((version_compare(PHP_VERSION, '5.0.0', '>=')) ? 1 : 0)) {
     die('Direct access not permitted');
@@ -30,4 +40,24 @@ function execute_query($query, $params = [])
 function is_logged_in()
 {
     return isset($_SESSION['user_id']);
+}
+
+// returns true if the email has been sent successfully
+function send_mail($to, $subject, $message)
+{
+    $mail = new PHPMailer();
+    $mail->IsSMTP();
+    $mail->Port = 587;
+    $mail->SMTPAuth = true;
+    $mail->Username = "apikey";
+    $mail->Password = $_ENV['SENDGRID_API_KEY'];
+    $mail->Host = "smtp.sendgrid.net";
+    $mail->SMTPSecure = 'tls';
+    $mail->From = $_ENV['SENDGRID_EMAIL'];
+    $mail->FromName = 'YASBS';
+    $mail->AddAddress($to);  // Add a recipient
+    $mail->isHTML(true);
+    $mail->Body    = $message;
+    $mail->Subject = $subject;
+    return $mail->Send();
 }
