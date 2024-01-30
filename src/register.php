@@ -43,14 +43,27 @@ function do_register()
         return;
     }
 
+    $verification_token = bin2hex(random_bytes(32));
+    if (!send_mail(
+        $email,
+        "YASBS - Verify your account",
+        "Click http://localhost/verify_account.php?token=$verification_token to verify your account"
+    )) {
+        // assume that if the email is not sent, the email is not valid
+        $error = "Invalid email";
+        return;
+    }
+
     // TODO check password strength
+    // TODO check if username or email already exists, very important for security!
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $result = execute_query('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)', [
+    $result = execute_query('INSERT INTO users (username, email, password, verification_token) VALUES (:username, :email, :password, :verification_token)', [
         'username' => $username,
         'email' => $email,
-        'password' => $hashed_password
+        'password' => $hashed_password,
+        'verification_token' => hash('sha256', $verification_token)
     ]);
 
     if (!$result) {

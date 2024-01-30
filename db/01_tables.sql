@@ -5,6 +5,8 @@ CREATE TABLE IF NOT EXISTS `users`(
     `email` VARCHAR(200) NOT NULL,
     `username` VARCHAR(200) NOT NULL,
     `password` CHAR(64) NOT NULL,
+    `verified` BOOLEAN NOT NULL DEFAULT FALSE,
+    `verification_token` CHAR(64) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) CHARACTER SET=utf8mb4;
 

@@ -37,6 +37,11 @@ function do_login()
         return;
     }
 
+    if (!$user['verified']) {
+        $error = "Account not verified";
+        return;
+    }
+
     if (!password_verify($password, $user['password'])) {
         // TODO handle password verification error and locking logic
         $error = "Invalid credentials";
