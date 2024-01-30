@@ -100,4 +100,23 @@ function updateTotal() {
     total_price_item.innerHTML = (total).toLocaleString(undefined, { minimumFractionDigits: 2 }) + " €";   
 }
 
+function checkout() {
+    var items = getItems();
+    var body = JSON.stringify(items);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/checkout.php");
+    xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
+    xhr.onload = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            window.location = "/checkout.php";
+        } else if (xhr.readyState == 4 && xhr.status == 401) {
+            window.location = xhr.responseURL;
+        } else {
+            console.log(`Error: ${xhr.status}`);
+        }
+    };
+    xhr.send(body);
+}
+
 buildTable()
