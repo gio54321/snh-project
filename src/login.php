@@ -44,7 +44,7 @@ function do_login()
     }
 
     // create a new session
-    session_start();
+    session_reset();
 
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
@@ -56,6 +56,11 @@ function do_login()
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     do_login();
+}
+
+if (is_logged_in()) {
+    header('Location: /');
+    exit;
 }
 
 require_once __DIR__ . '/html/header.php';

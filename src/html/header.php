@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../utils.php';
-session_start();
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +84,7 @@ session_start();
             </li>
           <?php } else { ?>
             <li>
-              <a href="/profile.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Profile</a>
+              <a href="/profile.php?user=<?php echo $_SESSION['username'] ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Profile</a>
             </li>
             <li>
               <a href="/logout.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Logout</a>
