@@ -21,7 +21,7 @@ if (!$user) {
     die('Invalid token');
 }
 
-execute_query('UPDATE users SET verified = 1 WHERE id = :id', [
+execute_query('UPDATE users SET verified = 1, verification_token=NULL WHERE id = :id', [
     'id' => $user['id']
 ]);
 

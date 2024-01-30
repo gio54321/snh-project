@@ -1,14 +1,13 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-
-require 'vendor/autoload.php';
-
-
 // restrict access to this file to only be accessed by including it
 if (count(get_included_files()) == ((version_compare(PHP_VERSION, '5.0.0', '>=')) ? 1 : 0)) {
     die('Direct access not permitted');
 }
+
+use PHPMailer\PHPMailer\PHPMailer;
+
+require 'vendor/autoload.php';
 
 // singleton class for database connection
 class Database
