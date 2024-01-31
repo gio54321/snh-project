@@ -87,7 +87,10 @@ session_start();
               <a href="/profile.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Profile</a>
             </li>
             <li>
-              <a href="/logout.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Logout</a>
+              <form method="post" action="/logout.php">
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+                <button action="submit" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Logout</button>
+              </form>
             </li>
           <?php } ?>
 
