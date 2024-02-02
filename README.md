@@ -1,6 +1,14 @@
 # YASBS - Yet Another Secure Book Shop
 
-To run the application, first create a `.env` file, then
+To run the application, first create a `.env` file, then download dependencies by
+
+
+```
+cd src
+composer install
+```
+
+then build and run the compose
 
 ```
 docker compose build
