@@ -124,10 +124,10 @@ require_once __DIR__ . '/html/header.php';
 
 <div class="flex items-center justify-center mt-10 mb-10">
     <div class="grid grid-cols-2 gap-4">
-        <div class="grid place-items-center">
+        <div class="grid place-items-center ml-32">
             <img style="height: 36rem;" class="p-8 rounded-t-lg" src="<?php echo $book["image"] ?>" alt="product image" />
         </div>
-        <div class="px-5 pt-32">
+        <div class="px-5 pt-8 mr-32">
             <h2 class="text-3xl font-bold tracking-tight text-gray-900">
                 <?php echo $book['title'] ?>
             </h2>
@@ -137,9 +137,9 @@ require_once __DIR__ . '/html/header.php';
             </span>
 
             <br>
-            <div class="mt-16">
+            <div class="mt-8">
                 <h5 class="text-xl font-semibold text-gray-800">Description</h5>
-                <?php echo $book['description'] ?>
+                <p class="text-justify"><?php echo $book['description'] ?></p>
             </div>
             <br>
             <form action="/book.php" method="post">

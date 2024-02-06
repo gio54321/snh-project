@@ -101,7 +101,7 @@ class CheckoutShipping {
     public $country;
     public $phone_number;
 
-    function destroy() {
+    function __destruct() {
         $this->fullname = "";
         $this->address = "";
         $this->city = "";
@@ -117,7 +117,7 @@ class CheckoutBilling {
     public $expiry_date;
     public $secret_code;
 
-    function destroy() {
+    function __destruct() {
         $this->card_owner = "";
         $this->card_number = "";
         $this->expiry_date = "";
@@ -135,15 +135,6 @@ class CheckoutInformation {
     function __construct($user, $date) {
         $this->user = $user;
         $this->date = $date;
-    }
-
-    function __destruct() {
-        if ($this->shipping !== NULL) {
-            $this->shipping.destroy();
-        }
-        if ($this->billing !== NULL) {
-            $this->billing.destroy();
-        }
     }
 }
 

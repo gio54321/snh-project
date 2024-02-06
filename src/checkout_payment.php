@@ -146,7 +146,7 @@ require_once __DIR__ . '/html/header.php';
                 <input type="expiry_date" id="date" name="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="03/28" required>
             </div>
             <div class="mb-5">
-                <label for="secret_code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+                <label for="secret_code" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secret Code</label>
                 <input type="secret_code" id="secret_code" name="secret_code" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••" required>
             </div>
             <input type="hidden" name="checkout_csrf_token" value="<?php echo get_checkout_csrf_token(); ?>" />

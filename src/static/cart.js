@@ -15,10 +15,10 @@ class Cart {
 
     addItem(item_id, quantity) {
         if (!this.items.has(item_id)) {
-            this.items.set(item_id, quantity);
+            this.items.set(item_id, Math.min(quantity, 10));
         } else {
             var old_quantity = this.items.get(item_id);
-            this.items.set(item_id, quantity + old_quantity);
+            this.items.set(item_id, Math.min(quantity + old_quantity, 10));
         }
     }
 
@@ -39,7 +39,7 @@ class Cart {
 
     setItem(item_id, quantity) {
         if (quantity > 0) {
-            this.items.set(item_id, quantity);
+            this.items.set(item_id, Math.max(quantity, 10));
         } else {
             this.items.delete(item_id);
         }
@@ -63,6 +63,15 @@ function itemToCart(item_id, quantity) {
 function addToCart(item_id) {
     var cart = __getCart();
     cart.addItem(item_id, 1);
+    __setCart(cart);
+
+    showAlert("Item added successfully to cart!");
+    hideAlertTimed(3000);
+}
+
+function clearCart() {
+    var cart = __getCart();
+    cart.items = new Map();
     __setCart(cart);
 }
 
