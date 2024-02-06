@@ -2,18 +2,36 @@
 require_once __DIR__ . '/utils.php';
 require_once __DIR__ . '/utils/checkout_utils.php';
 
-$error = "";
-
-function do_checkout()
-{
-    global $error;
-
+function do_checkout() {
     if (!is_logged_in()) {
+        log_info_unauth("Checkout from anonymous user, redirect to login.");
+
         header('Location: /login.php', true, 401);
         exit;
     }
 
     $data = json_decode($_POST['items']);
+    if ($data === null || !is_array($data)) {
+        log_warning_auth("Checkout data decode error [1]", [
+            "data" => $data
+        ]);
+        
+        http_response_code(400);
+        exit;
+    }
+    
+    foreach ($data as $pair) {
+        if (!isset($pair[0]) || !isset($pair[1]) ||
+            !is_numeric($pair[0]) || !is_numeric($pair[0]))
+        {
+            log_warning_auth("Checkout data decode error [2]", [
+                "data" => $data
+            ]);
+
+            http_response_code(400);
+            exit;
+        }
+    }
 
     $checkout = Checkout::reset();
     foreach ($data as $pair) {
@@ -23,51 +41,11 @@ function do_checkout()
         array_push($checkout->items, $item);
     }
 
+    log_info_auth("Checkout request success");
+
     set_checkout_next_step("checkout_login");
     header('Location: /checkout_login.php');
     exit;
-
-    //old code!
-    /*$userid = $_SESSION['user_id'];
-    if (!isset($userid)) {
-        $error = "Invalid session user id";
-        return;
-    }
-
-    $date = date('Y-m-d H:i:s');
-
-    execute_query('DELETE FROM checkout_details WHERE user_id=:id', ['id' => $userid]);
-    execute_query('DELETE FROM checkout WHERE user_id=:id', ['id' => $userid]);
-    $result = execute_query('INSERT INTO checkout (user_id, date) VALUES (:user_id, :date)', [
-        'date' => $date,
-        'user_id' => $userid
-    ]);
-
-    if (!$result) {
-        $error = "Error in creating the checkout order [0]";
-        return;
-    }
-
-    foreach ($data as $pair) {
-        $book_id = $pair[0];
-        $quantity = $pair[1];
-        $result = execute_query('INSERT INTO checkout_details (user_id, book_id, quantity) VALUES (:user_id, :book, :quantity)', [
-            'user_id' => $userid,
-            'book' => $book_id,
-            'quantity' => $quantity
-        ]);
-
-        if (!$result) {
-            $error = "Error in creating the checkout order [2]";
-            execute_query('DELETE FROM checkout_details WHERE user_id=:id', ['id' => $userid]);
-            execute_query('DELETE FROM checkout WHERE user_id=:id', ['id' => $userid]);
-            return;
-        }
-    }
-
-    set_checkout_next_step("checkout_login");
-    header('Location: /checkout_login.php');
-    exit;*/
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -78,11 +56,6 @@ require_once __DIR__ . '/html/header.php';
 ?>
 
 <div class="flex flex-col items-center justify-center mt-10 mb-10">
-    <?php if ($error !== "") { ?>
-        <div class="flex items-start mb-6 text-sm font-bold text-red-500">
-            <?php echo $error ?>
-        </div>
-    <?php } ?>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

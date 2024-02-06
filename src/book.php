@@ -2,33 +2,32 @@
 require_once __DIR__ . '/utils.php';
 
 function try_download_file() {
-    $log = Logging::instance();
-
     if (!is_logged_in()) {
-        $log->warning("Unauthenticated download request", [
-            "user_ip" => get_user_ip()
-        ]);
+        log_warning_unauth("Unauthenticated download request");
+        
+        http_response_code(403);
         exit;
     }
 
     if (!isset($_POST["id"])) {
-        $log->warning("No book id provided for download request", [
-            "user_ip" => get_user_ip(),
-            "user_id" => $_SESSION['user_id']
-        ]);
+        log_warning_auth("No book id provided for download request");
+
+        http_response_code(400);
         exit;
     }
 
     $result = execute_query('SELECT * FROM owned_books WHERE user_id=:user_id AND book_id=:book_id', [
-        'user_id' => $_SESSION['user_id'],
-        'book_id' => $_POST["id"]
+        "user_id" => $_SESSION['user_id'],
+        "username" => $_SESSION['username'],
+        "book_id" => $_POST["id"]
     ])->fetchAll();
 
     if (count($result) == 0) {
-        $log->warning("Unauthorized book download request", [
-            'user_id' => $_SESSION['user_id'],
-            'book_id' => $_POST["id"]
+        log_warning_auth("Unauthorized book download request", [
+            "book_id" => $_POST["id"]
         ]);
+        
+        http_response_code(403);
         exit;
     }
 
@@ -37,17 +36,18 @@ function try_download_file() {
     ])->fetch();
 
     if (!isset($result['file'])) {
-        $log->error("Book file not found", [
+        log_error_auth("Book file not found", [
             'book_id' => $_POST["id"]
         ]);
+        
+        http_response_code(500);
         exit;
     }
 
     $file = $result['file'];
     if (file_exists($file)) {
-        $log->info("Book downloaded", [
-            'user_id' => $_SESSION['user_id'],
-            'book_id' => $_POST["id"],
+        log_info_auth("Book downloaded", [
+            "book_id" => $_POST["id"]
         ]);
 
         header('Content-type: application/pdf');
@@ -55,10 +55,12 @@ function try_download_file() {
         readfile($file);
         exit;
     } else {
-        $log->error("Book file does not exist", [
+        log_error_auth("Book file does not exist", [
             'book_id' => $_POST["id"],
             'file' => $file
         ]);
+
+        http_response_code(500);
         exit;
     }
 }
@@ -69,21 +71,30 @@ function prepare_book_page() {
     global $owned;
 
     if (!isset($_GET["id"])) {
-        // no id, redirect to index
-        header('Location: /');
+        log_warning("Book page requested without book id");
+
+        header('Location: /', true, 400);
         exit;
     }
 
     $book_id = $_GET["id"];
     if (!is_numeric($book_id)) {
+        log_warning("Book page requested with non numeric book id", [
+            "book_id" => $_GET['id']
+        ]);
+
+        http_response_code(400);
         die('Invalid book id');
     }
 
     $books_matching = execute_query('SELECT * FROM `books` WHERE id=:id', ['id' => $book_id])->fetchAll();
 
     if (count($books_matching) == 0) {
-        // no book found, redirect to index
-        header('Location: /');
+        log_warning("Book not found", [
+            "book_id" => $book_id
+        ]);
+
+        header('Location: /', true, 404);
         exit;
     }
 

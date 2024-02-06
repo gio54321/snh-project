@@ -8,8 +8,10 @@ function check_checkout_csrf_token() {
     if (!isset($_POST['checkout_csrf_token']) ||
         $_POST['checkout_csrf_token'] !== $_SESSION['checkout_csrf_token']
     ) {
+        unset($_SESSION['checkout_csrf_token']);
         return false;
     } else {
+        unset($_SESSION['checkout_csrf_token']);
         return true;
     }
 }
@@ -35,10 +37,6 @@ function check_checkout_next_step($step_string) {
     } else {
         return true;
     }
-}
-
-function unset_checkout_next_step() {
-    unset($_SESSION['checkout_next_step']);
 }
 
 class Checkout {
@@ -85,28 +83,6 @@ function set_checkout_information($checkout_info) {
     $_SESSION['checkout_info'] = serialize($checkout_info);
 }
 
-class CheckoutInformation {
-    public $user;
-    public $date;
-    public $items = [];
-    public $shipping = NULL;
-    public $billing = NULL;
-
-    function __construct($user, $date) {
-        $this->user = $user;
-        $this->date = $date;
-    }
-
-    function __destruct() {
-        if ($this->shipping !== NULL) {
-            $this->shipping.destroy();
-        }
-        if ($this->billing !== NULL) {
-            $this->billing.destroy();
-        }
-    }
-}
-
 class CheckoutItem {
     public $book_id;
     public $quantity;
@@ -146,6 +122,28 @@ class CheckoutBilling {
         $this->card_number = "";
         $this->expiry_date = "";
         $this->secret_code = "";
+    }
+}
+
+class CheckoutInformation {
+    public $user;
+    public $date;
+    public $items = [];
+    public $shipping = NULL;
+    public $billing = NULL;
+
+    function __construct($user, $date) {
+        $this->user = $user;
+        $this->date = $date;
+    }
+
+    function __destruct() {
+        if ($this->shipping !== NULL) {
+            $this->shipping.destroy();
+        }
+        if ($this->billing !== NULL) {
+            $this->billing.destroy();
+        }
     }
 }
 

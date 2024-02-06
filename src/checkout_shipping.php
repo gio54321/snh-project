@@ -10,13 +10,16 @@ function checkout_shipping()
     global $error;
 
     if (!is_logged_in()) {
-        header('Location: /', true, 401);
+        log_warning_unauth("Checkout shipping post request from anonymous user");
+
+        header('Location: /', true, 403);
         exit;
     }
     
     if (!check_checkout_csrf_token()) {
-        $_SESSION['index_page_error'] = "error 3!";
-        header('Location: /');
+        log_warning_auth("Checkout shipping post request invalid CSRF token");
+
+        header('Location: /', true, 403);
         exit;
     }
 
@@ -28,7 +31,10 @@ function checkout_shipping()
         !isset($_POST['country']) ||
         !isset($_POST['phone_number'])
     ) {
+        log_warning_auth("Checkout shipping post request missing fields");
+
         $error = "Missing fields";
+        http_response_code(400);
         return;
     }
 
@@ -36,20 +42,18 @@ function checkout_shipping()
         !is_string($_POST['fullname']) ||
         !is_string($_POST['address']) ||
         !is_string($_POST['city']) ||
-        !is_string($_POST['zipcode']) ||
+        !is_numeric($_POST['zipcode']) ||
         !is_string($_POST['country']) ||
         !is_string($_POST['phone_number'])
     ) {
+        log_warning_auth("Checkout shipping post request invalid fields");
+
         $error = "Invalid fields";
+        http_response_code(400);
         return;
     }
 
     $zipcode = intval($_POST['zipcode']);
-
-    if ($zipcode == 0) {
-        $error = "Invalid zipcode";
-        return;
-    }
 
     $shipping = new CheckoutShipping();
     $shipping->fullname = $_POST['fullname'];
@@ -62,6 +66,8 @@ function checkout_shipping()
     $checkout = Checkout::instance();
     $checkout->shipping = $shipping;
 
+    log_info_auth("Checkout shipping post request success");
+
     set_checkout_next_step("checkout_payment");
     header('Location: /checkout_payment.php');
     exit;
@@ -69,13 +75,16 @@ function checkout_shipping()
 
 function prepare_shipping_page() {    
     if (!is_logged_in()) {
-        header('Location: /login.php');
+        log_warning_unauth("Checkout shipping page request by unauthenticated user");
+
+        header('Location: /', true, 403);
         exit;
     }
 
     if (!check_checkout_next_step("checkout_shipping")) {
-        $_SESSION['index_page_error'] = "error 2!";
-        header('Location: /');
+        log_warning_auth("Checkout shipping page requested out of order");
+
+        header('Location: /', true, 403);
         exit;
     }
 

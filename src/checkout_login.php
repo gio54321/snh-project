@@ -6,31 +6,40 @@ require_once __DIR__ . '/utils/checkout_utils.php';
 $error = "";
 $username = "";
 
-function checkout_login()
-{
+function checkout_login() {
     global $error;
 
     if (!is_logged_in()) {
-        header('Location: /', true, 401);
+        log_warning_unauth("Checkout login post request from anonymous user");
+
+        header('Location: /', true, 403);
         exit;
     }
     
     if (!check_checkout_csrf_token()) {
-        header('Location: /');
+        log_warning_auth("Checkout login post request invalid CSRF token");
+
+        header('Location: /', true, 403);
         exit;
     }
 
     $userid = $_SESSION['user_id'];
 
     if (!isset($_POST['password'])) {
+        log_warning_auth("Checkout login post request missing password");
+
         $error = "Missing password";
+        http_response_code(400);
         return;
     }
 
     $password = $_POST['password'];
 
     if (!is_string($password)) {
+        log_info_auth("Checkout login post request invalid password");
+
         $error = "Invalid password";
+        http_response_code(400);
         return;
     }
 
@@ -39,20 +48,31 @@ function checkout_login()
     ])->fetch();
 
     if (!$user) {
+        log_warning_auth("Checkout login post request missing user");
+
         $error = "Invalid credentials";
+        http_response_code(400);
         return;
     }
 
     if (!$user['verified']) {
+        log_warning_auth("Checkout login post request accout not verified");
+
         $error = "Account not verified";
+        http_response_code(400);
         return;
     }
 
     if (!password_verify($password, $user['password'])) {
         // TODO handle password verification error and locking logic
+        log_warning_auth("Checkout login post request incorrect password");
+
         $error = "Invalid credentials";
+        http_response_code(400);
         return;
     }
+
+    log_info_auth("Checkout login post request success");
 
     set_checkout_next_step("checkout_shipping");
     header('Location: /checkout_shipping.php');
@@ -61,15 +81,19 @@ function checkout_login()
 
 function prepare_login_page() {
     global $username;
-    
+
     if (!is_logged_in()) {
-        header('Location: /login.php');
+        log_warning_unauth("Checkout login page requested from anonymous user");
+
+        header('Location: /', true, 403);
         exit;
     }
 
     if (!check_checkout_next_step("checkout_login")) {
+        log_warning_auth("Checkout login page requested out of order");
+
         $_SESSION['index_page_error'] = "error!";
-        header('Location: /');
+        header('Location: /', true, 403);
         exit;
     }
 

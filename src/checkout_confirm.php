@@ -12,13 +12,16 @@ function checkout_confirmation()
     global $checkout;
 
     if (!is_logged_in()) {
-        header('Location: /', true, 401);
+        log_warning_unauth("Checkout confirm post request by unauthenticated user");
+
+        header('Location: /', true, 403);
         exit;
     }
     
     if (!check_checkout_csrf_token()) {
-        $_SESSION['index_page_error'] = "error 3!";
-        header('Location: /');
+        log_warning_auth("Checkout confirm post request invalid CSRF token");
+
+        header('Location: /', true, 403);
         exit;
     }
 
@@ -35,8 +38,10 @@ function checkout_confirmation()
     ]);
 
     if (!$result) {
-        $error = "error [0]";
-        return;
+        log_error_auth("Checkout confirm post request database error [0]");
+
+        http_response_code(500);
+        exit;
     }
 
     $order_id = execute_query('SELECT id from orders WHERE date=:date AND user_id=:user', [
@@ -45,8 +50,10 @@ function checkout_confirmation()
     ])->fetch();
 
     if (!$order_id) {
-        $error = "error [1]";
-        return;
+        log_error_auth("Checkout confirm post request database error [1]");
+
+        http_response_code(500);
+        exit;
     }
 
     foreach ($checkout->items as $item) {
@@ -58,8 +65,10 @@ function checkout_confirmation()
         ]);
 
         if (!$result) {
-            $error = "error [2]";
-            return;
+            log_error_auth("Checkout confirm post request database error [2]");
+    
+            http_response_code(500);
+            exit;
         }
 
         //the ON DUPLICATE KEY UPDATE should not insert the row if the pair is already present in the table
@@ -74,12 +83,16 @@ function checkout_confirmation()
         ]);
 
         if (!$result) {
-            $error = "error [2]";
-            return;
+            log_error_auth("Checkout confirm post request database error [3]");
+    
+            http_response_code(500);
+            exit;
         }
     }
 
-    unset_checkout_next_step();
+    log_info_auth("Checkout confirm post request success");
+
+    unset_checkout_csrf_token();
     header('Location: /');
     exit;
 }
@@ -92,21 +105,26 @@ function prepare_confirm_page() {
     global $checkout;
     
     if (!is_logged_in()) {
-        header('Location: /login.php');
+        log_warning_auth("Checkout confirm page request by unauthorized user");
+
+        header('Location: /', true, 403);
         exit;
     }
 
     if (!check_checkout_next_step("checkout_confirm")) {
-        $_SESSION['index_page_error'] = "error 2!";
-        header('Location: /');
+        log_warning_auth("Checkout confirm page request out of order");
+
+        header('Location: /', true, 403);
         exit;
     }
 
     
     $all_books = execute_query('SELECT id, title, price, image FROM books')->fetchAll();
     if(!$all_books) {
-        $error = "error 0";
-        return;
+        log_error_auth("Database books fetch error");
+
+        http_response_code(500);
+        exit;
     }
 
     foreach ($checkout->items as $item) {

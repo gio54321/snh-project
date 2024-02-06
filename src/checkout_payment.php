@@ -10,13 +10,16 @@ function checkout_payment()
     global $error;
 
     if (!is_logged_in()) {
-        header('Location: /', true, 401);
+        log_warning_unauth("Checkout payment post request from anonymous user");
+
+        header('Location: /', true, 403);
         exit;
     }
     
     if (!check_checkout_csrf_token()) {
-        $_SESSION['index_page_error'] = "error 3!";
-        header('Location: /');
+        log_warning_auth("Checkout payment post request invalid CSRF token");
+
+        header('Location: /', true, 403);
         exit;
     }
 
@@ -26,7 +29,10 @@ function checkout_payment()
         !isset($_POST['date']) ||
         !isset($_POST['secret_code'])
     ) {
+        log_info_auth("Checkout payment post request missing fields");
+
         $error = "Missing fields";
+        http_response_code(400);
         return;
     }
 
@@ -36,7 +42,10 @@ function checkout_payment()
         !is_string($_POST['date']) ||
         !is_string($_POST['secret_code'])
     ) {
+        log_info_auth("Checkout payment post request invalid fields");
+
         $error = "Invalid fields";
+        http_response_code(400);
         return;
     }
 
@@ -49,6 +58,8 @@ function checkout_payment()
     $checkout = Checkout::instance();
     $checkout->billing = $billing;
 
+    log_info_auth("Checkout payment post request success");
+
     set_checkout_next_step("checkout_confirm");
     header('Location: /checkout_confirm.php');
     exit;
@@ -56,13 +67,16 @@ function checkout_payment()
 
 function prepare_payment_page() {    
     if (!is_logged_in()) {
-        header('Location: /login.php');
+        log_warning_auth("Checkout payment page request by unauthenticated user");
+
+        header('Location: /', true, 403);
         exit;
     }
 
     if (!check_checkout_next_step("checkout_payment")) {
-        $_SESSION['index_page_error'] = "error 2!";
-        header('Location: /');
+        log_warning_auth("Checkout payment page request out of order");
+
+        header('Location: /', true, 403);
         exit;
     }
 
