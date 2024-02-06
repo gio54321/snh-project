@@ -13,6 +13,8 @@ if (count(get_included_files()) == ((version_compare(PHP_VERSION, '5.0.0', '>=')
 }
 
 use PHPMailer\PHPMailer\PHPMailer;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 require 'vendor/autoload.php';
 
@@ -26,6 +28,22 @@ class Database
             $user = getenv('MYSQL_USER');
             $pass = getenv('MYSQL_PASSWORD');
             self::$instance = new PDO('mysql:host=db;dbname=yasbs', $user, $pass);
+        }
+        return self::$instance;
+    }
+}
+
+class Logging
+{
+    static $instance = null;
+    static function instance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new Logger('logger');
+            $lastRebootDate = exec("uptime -s");
+            $lastRebootDate = str_replace(":", "-", $lastRebootDate);
+            $lastRebootDate = str_replace(" ", "-", $lastRebootDate);
+            self::$instance->pushHandler(new StreamHandler('/log/' . $lastRebootDate . '.log', Logger::INFO));
         }
         return self::$instance;
     }

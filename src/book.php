@@ -2,11 +2,20 @@
 require_once __DIR__ . '/utils.php';
 
 function try_download_file() {
+    $log = Logging::instance();
+
     if (!is_logged_in()) {
+        $log->warning("Unauthenticated download request", [
+            "user_ip" => get_user_ip()
+        ]);
         exit;
     }
 
     if (!isset($_POST["id"])) {
+        $log->warning("No book id provided for download request", [
+            "user_ip" => get_user_ip(),
+            "user_id" => $_SESSION['user_id']
+        ]);
         exit;
     }
 
@@ -16,6 +25,10 @@ function try_download_file() {
     ])->fetchAll();
 
     if (count($result) == 0) {
+        $log->warning("Unauthorized book download request", [
+            'user_id' => $_SESSION['user_id'],
+            'book_id' => $_POST["id"]
+        ]);
         exit;
     }
 
@@ -24,16 +37,28 @@ function try_download_file() {
     ])->fetch();
 
     if (!isset($result['file'])) {
+        $log->error("Book file not found", [
+            'book_id' => $_POST["id"]
+        ]);
         exit;
     }
 
     $file = $result['file'];
-    if (file_exists($file)) {    
+    if (file_exists($file)) {
+        $log->info("Book downloaded", [
+            'user_id' => $_SESSION['user_id'],
+            'book_id' => $_POST["id"],
+        ]);
+
         header('Content-type: application/pdf');
         header('Content-Disposition: attachment; filename="downloaded.pdf"');
         readfile($file);
         exit;
     } else {
+        $log->error("Book file does not exist", [
+            'book_id' => $_POST["id"],
+            'file' => $file
+        ]);
         exit;
     }
 }
@@ -65,7 +90,7 @@ function prepare_book_page() {
     $book = $books_matching[0];
 
     $owned = false;
-    if (is_logged_in()) {    
+    if (is_logged_in()) {
         $result = execute_query('SELECT * FROM owned_books WHERE user_id=:user_id AND book_id=:book_id', [
             'user_id' => $_SESSION['user_id'],
             'book_id' => $book_id

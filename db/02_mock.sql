@@ -10,7 +10,7 @@ INSERT INTO `books` (`title`, `author`, `description`, `price`, `image`, `file`)
 In the technological arena, three years is a lifetime. Since the first edition of this book was published in 2004, built-in security measures on compilers and operating systems have become commonplace, but are still far from perfect. Arbitrary-code execution vulnerabilities still allow attackers to run code of their choice on your system - with disastrous results.",
     4597,
     "/static/shellcoder_handbook.jpg",
-    "./books/example.pdf"
+    "/books/example.pdf"
 ),
 (
     "The Moonmath Manual",
@@ -20,7 +20,7 @@ The acronym zk-SNARK stands for Zero-Knowledge Succinct Non-Interactive Argument
 As users go through the manual, they will grasp mathematical concepts that are not only used in SNARKs, but also in other zero-knowledge proofs and cryptography more generally.",
     3298,
     "/static/moonmath.webp",
-    "./books/example.pdf"
+    "/books/example.pdf"
 ),
 (
     "Deep work",
@@ -30,7 +30,7 @@ As users go through the manual, they will grasp mathematical concepts that are n
 In Deep Work, author and professor Cal Newport flips the narrative on impact in a connected age. Instead of arguing distraction is bad, he instead celebrates the power of its opposite. Dividing this book into two parts, he first makes the case that in almost any profession, cultivating a deep work ethic will produce massive benefits. He then presents a rigorous training regimen, presented as a series of four rules, for transforming your mind and habits to support this skill.",
     1968,
     "/static/deep_work.jpg",
-    "./books/example.pdf"
+    "/books/example.pdf"
 ),
 (
     "Practical foundations for programming languages",
@@ -38,7 +38,7 @@ In Deep Work, author and professor Cal Newport flips the narrative on impact in 
     "My purpose in writing this book is to establish a comprehensive framework for formulating and analyzing a broad range of ideas in programming languages. If language design and programming methodology are to advance from a trade-craft to a rigorous discipline, it is essential that we first get the definitions right. Then, and only then, can there be meaningful analysis and consolidation of ideas. My hope is that I have helped to build such a foundation.",
     5467,
     "/static/pfpl.jpg",
-    "./books/example.pdf"
+    "/books/example.pdf"
 ),
 (
     "TCP/IP illustrated - Volume 1",
@@ -46,7 +46,7 @@ In Deep Work, author and professor Cal Newport flips the narrative on impact in 
     "TCP/IP Illustrated, Volume 1, Second Edition,is a detailed and visual guide to today's TCP/IP protocol suite. Fully updated for the newest innovations, it demonstrates each protocol in action through realistic examples from modern Linux, Windows, and Mac OS environments. There's no better way to discover why TCP/IP works as it does, how it reacts to common conditions, and how to apply it in your own applications and networks.",
     4149,
     "/static/tcp_ip_1.jpg",
-    "./books/example.pdf"
+    "/books/example.pdf"
 ),
 (
     "An introduction to mathematical cryptography",
@@ -54,5 +54,5 @@ In Deep Work, author and professor Cal Newport flips the narrative on impact in 
     "This self-contained introduction to modern cryptography emphasizes the mathematics behind the theory of public key cryptosystems and digital signature schemes. The book focuses on these key topics while developing the mathematical tools needed for the construction and security analysis of diverse cryptosystems. Only basic linear algebra is required of the reader; techniques from algebra, number theory, and probability are introduced and developed as required. This text provides an ideal introduction for mathematics and computer science students to the mathematical foundations of modern cryptography. The book includes an extensive bibliography and index; supplementary materials are available online.",
     5884,
     "/static/crypto.jpg",
-    "./books/example.pdf"
+    "/books/example.pdf"
 );
