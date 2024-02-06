@@ -1,11 +1,23 @@
 <?php
 require_once __DIR__ . '/utils.php';
 
+$error = "";
+
+if (isset($_SESSION['index_page_error'])) {
+    $error = $_SESSION['index_page_error'];
+    unset($_SESSION['index_page_error']);
+}
+
 $books = execute_query('SELECT * FROM books')->fetchAll();
 require_once __DIR__ . '/html/header.php';
 ?>
 
-<div class="flex items-center justify-center mt-10 mb-10">
+<div class="flex flex-col items-center justify-center mt-10 mb-10">
+    <?php if ($error !== "") { ?>
+        <div class="flex items-start mb-6 text-sm font-bold text-red-500">
+            <?php echo $error ?>
+        </div>
+    <?php } ?>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
         <?php foreach ($books as $book) { ?>
             <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">

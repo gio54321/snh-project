@@ -2,6 +2,11 @@
 session_start();
 date_default_timezone_set('UTC');
 
+//if the variable '$checkout_procedure_page' is not set (any value is fine), forcefully unset the checkout csrf token
+//if this happens this means that the user switched/requested another page in the middle of the checkout request
+//this should hopefully prevent unwanted page switching in the middle of the checkout procedure
+__DIR__ . '/utils/checkout_reset.php';
+
 // restrict access to this file to only be accessed by including it
 if (count(get_included_files()) == ((version_compare(PHP_VERSION, '5.0.0', '>=')) ? 1 : 0)) {
     die('Direct access not permitted');

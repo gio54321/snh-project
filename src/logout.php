@@ -7,8 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-session_start();
-
 // check that the user is logged in
 if (!is_logged_in()) {
     header('Location: /');

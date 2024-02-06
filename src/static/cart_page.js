@@ -102,11 +102,11 @@ function updateTotal() {
 
 function checkout() {
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/checkout.php");
+    xhr.open("POST", "/cart.php");
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onload = () => {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            window.location = "/checkout.php";
+            window.location = xhr.responseURL;
         } else if (xhr.readyState == 4 && xhr.status == 401) {
             window.location = xhr.responseURL;
         } else {

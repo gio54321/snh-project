@@ -1,10 +1,88 @@
 <?php
 require_once __DIR__ . '/utils.php';
+require_once __DIR__ . '/utils/checkout_utils.php';
+
+$error = "";
+
+function do_checkout()
+{
+    global $error;
+
+    if (!is_logged_in()) {
+        header('Location: /login.php', true, 401);
+        exit;
+    }
+
+    $data = json_decode($_POST['items']);
+
+    $checkout = Checkout::reset();
+    foreach ($data as $pair) {
+        $book_id = $pair[0];
+        $quantity = $pair[1];
+        $item = new CheckoutItem($book_id, $quantity);
+        array_push($checkout->items, $item);
+    }
+
+    set_checkout_next_step("checkout_login");
+    header('Location: /checkout_login.php');
+    exit;
+
+    //old code!
+    /*$userid = $_SESSION['user_id'];
+    if (!isset($userid)) {
+        $error = "Invalid session user id";
+        return;
+    }
+
+    $date = date('Y-m-d H:i:s');
+
+    execute_query('DELETE FROM checkout_details WHERE user_id=:id', ['id' => $userid]);
+    execute_query('DELETE FROM checkout WHERE user_id=:id', ['id' => $userid]);
+    $result = execute_query('INSERT INTO checkout (user_id, date) VALUES (:user_id, :date)', [
+        'date' => $date,
+        'user_id' => $userid
+    ]);
+
+    if (!$result) {
+        $error = "Error in creating the checkout order [0]";
+        return;
+    }
+
+    foreach ($data as $pair) {
+        $book_id = $pair[0];
+        $quantity = $pair[1];
+        $result = execute_query('INSERT INTO checkout_details (user_id, book_id, quantity) VALUES (:user_id, :book, :quantity)', [
+            'user_id' => $userid,
+            'book' => $book_id,
+            'quantity' => $quantity
+        ]);
+
+        if (!$result) {
+            $error = "Error in creating the checkout order [2]";
+            execute_query('DELETE FROM checkout_details WHERE user_id=:id', ['id' => $userid]);
+            execute_query('DELETE FROM checkout WHERE user_id=:id', ['id' => $userid]);
+            return;
+        }
+    }
+
+    set_checkout_next_step("checkout_login");
+    header('Location: /checkout_login.php');
+    exit;*/
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    do_checkout();
+}
 
 require_once __DIR__ . '/html/header.php';
 ?>
 
-<div class="flex items-center justify-center mt-10 mb-10">        
+<div class="flex flex-col items-center justify-center mt-10 mb-10">
+    <?php if ($error !== "") { ?>
+        <div class="flex items-start mb-6 text-sm font-bold text-red-500">
+            <?php echo $error ?>
+        </div>
+    <?php } ?>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
