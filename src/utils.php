@@ -44,6 +44,17 @@ function is_logged_in()
     return isset($_SESSION['user_id']);
 }
 
+function check_csrf_token()
+{
+    if (!isset($_SESSION['csrf_token'])) {
+        return false;
+    }
+    if (!isset($_POST['csrf_token'])) {
+        return false;
+    }
+    return hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']);
+}
+
 // returns true if the email has been sent successfully
 function send_mail($to, $subject, $message)
 {
@@ -65,19 +76,20 @@ function send_mail($to, $subject, $message)
 }
 
 //https://stackoverflow.com/questions/15699101/get-the-client-ip-address-using-php
-function get_client_ip() {
+function get_client_ip()
+{
     $ipaddress = '';
     if (isset($_SERVER['HTTP_CLIENT_IP']))
         $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+    else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
         $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED']))
+    else if (isset($_SERVER['HTTP_X_FORWARDED']))
         $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+    else if (isset($_SERVER['HTTP_FORWARDED_FOR']))
         $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_FORWARDED']))
+    else if (isset($_SERVER['HTTP_FORWARDED']))
         $ipaddress = $_SERVER['HTTP_FORWARDED'];
-    else if(isset($_SERVER['REMOTE_ADDR']))
+    else if (isset($_SERVER['REMOTE_ADDR']))
         $ipaddress = $_SERVER['REMOTE_ADDR'];
     else
         $ipaddress = 'UNKNOWN';
