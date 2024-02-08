@@ -36,9 +36,7 @@ require_once __DIR__ . '/html/header.php';
                         <span class="text-3xl text-gray-900">
                             <?php echo $book['price'] / 100 ?> €
                         </span>
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            onclick="addToCart(<?php echo $book['id'] ?>);"
-                        >Add to cart</button>
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="addToCart(<?php echo $book['id'] ?>);">Add to cart</button>
                     </div>
                 </div>
             </div>

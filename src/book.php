@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__ . '/utils.php';
 
-function try_download_file() {
+function try_download_file()
+{
     if (!is_logged_in()) {
         log_warning_unauth("Unauthenticated download request");
-        
+
         http_response_code(403);
         exit;
     }
@@ -26,7 +27,7 @@ function try_download_file() {
         log_warning_auth("Unauthorized book download request", [
             "book_id" => $_POST["id"]
         ]);
-        
+
         http_response_code(403);
         exit;
     }
@@ -39,7 +40,7 @@ function try_download_file() {
         log_error_auth("Book file not found", [
             'book_id' => $_POST["id"]
         ]);
-        
+
         http_response_code(500);
         exit;
     }
@@ -65,7 +66,8 @@ function try_download_file() {
     }
 }
 
-function prepare_book_page() {
+function prepare_book_page()
+{
     global $book_id;
     global $book;
     global $owned;
@@ -144,9 +146,7 @@ require_once __DIR__ . '/html/header.php';
             <br>
             <form action="/book.php" method="post">
                 <input type="hidden" name="id" value="<?php echo $book_id; ?>" />
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                    onclick="addToCart(<?php echo $book['id'] ?>);"
-                >Add to cart</button>
+                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="addToCart(<?php echo $book['id'] ?>);">Add to cart</button>
                 <?php if ($owned) { ?>
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                         Download
