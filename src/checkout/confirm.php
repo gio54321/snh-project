@@ -1,7 +1,7 @@
 <?php
 $checkout_procedure_page = 0;
-require_once __DIR__ . '/utils.php';
-require_once __DIR__ . '/utils/checkout_utils.php';
+require_once __DIR__ . '/../utils.php';
+require_once __DIR__ . '/../utils/checkout_utils.php';
 
 $error = "";
 $checkout = Checkout::instance();
@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 prepare_confirm_page();
 
-require_once __DIR__ . '/html/header.php';
+require_once __DIR__ . '/../html/header.php';
 ?>
 
 <div class="flex flex-col items-center justify-center mt-10 mb-10">
@@ -301,7 +301,7 @@ require_once __DIR__ . '/html/header.php';
         </div>
     </div>
 
-    <form class="max-w-sm mx-auto items-right mt-10" action="/checkout_confirm.php" method="post">
+    <form class="max-w-sm mx-auto items-right mt-10" action="/checkout/confirm.php" method="post">
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?>" />
         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Submit Order
@@ -310,5 +310,5 @@ require_once __DIR__ . '/html/header.php';
 </div>
 
 <?php
-require_once __DIR__ . '/html/footer.php';
+require_once __DIR__ . '/../html/footer.php';
 ?>

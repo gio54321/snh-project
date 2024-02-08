@@ -1,7 +1,7 @@
 <?php
 $checkout_procedure_page = 0;
-require_once __DIR__ . '/utils.php';
-require_once __DIR__ . '/utils/checkout_utils.php';
+require_once __DIR__ . '/../utils.php';
+require_once __DIR__ . '/../utils/checkout_utils.php';
 
 $error = "";
 $username = "";
@@ -76,7 +76,7 @@ function checkout_login()
     log_info_auth("Checkout login post request success");
 
     set_checkout_next_step("checkout_shipping");
-    header('Location: /checkout_shipping.php');
+    header('Location: /checkout/shipping.php');
     exit;
 }
 
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 prepare_login_page();
 
-require_once __DIR__ . '/html/header.php';
+require_once __DIR__ . '/../html/header.php';
 ?>
 
 <div class="flex flex-col items-center justify-center mt-10 mb-10">
@@ -153,7 +153,7 @@ require_once __DIR__ . '/html/header.php';
             </div>
         <?php } ?>
 
-        <form action="/checkout_login.php" method="post">
+        <form action="/checkout/login.php" method="post">
             <div class="mb-6">
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
                 <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="•••••••••" required>
@@ -166,5 +166,5 @@ require_once __DIR__ . '/html/header.php';
 </div>
 
 <?php
-require_once __DIR__ . '/html/footer.php';
+require_once __DIR__ . '/../html/footer.php';
 ?>

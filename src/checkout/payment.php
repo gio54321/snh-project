@@ -1,7 +1,7 @@
 <?php
 $checkout_procedure_page = 0;
-require_once __DIR__ . '/utils.php';
-require_once __DIR__ . '/utils/checkout_utils.php';
+require_once __DIR__ . '/../utils.php';
+require_once __DIR__ . '/../utils/checkout_utils.php';
 
 $error = "";
 
@@ -61,7 +61,7 @@ function checkout_payment()
     log_info_auth("Checkout payment post request success");
 
     set_checkout_next_step("checkout_confirm");
-    header('Location: /checkout_confirm.php');
+    header('Location: /checkout/confirm.php');
     exit;
 }
 
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 prepare_payment_page();
 
-require_once __DIR__ . '/html/header.php';
+require_once __DIR__ . '/../html/header.php';
 ?>
 
 <div class="flex flex-col items-center justify-center mt-10 mb-10">
@@ -130,7 +130,7 @@ require_once __DIR__ . '/html/header.php';
     <?php } ?>
 
     <div class="p-8 border-2 border-gray-200 border-dashed rounded-lg w-full md:w-2/5 mx-4">
-        <form class="max-w-sm mx-auto" action="/checkout_payment.php" method="post">
+        <form class="max-w-sm mx-auto" action="/checkout/payment.php" method="post">
             <h2 class="text-3xl font-extrabold mb-6">Payment Information</h2>
             <div class="mb-5">
                 <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
@@ -157,5 +157,5 @@ require_once __DIR__ . '/html/header.php';
 </div>
 
 <?php
-require_once __DIR__ . '/html/footer.php';
+require_once __DIR__ . '/../html/footer.php';
 ?>
