@@ -244,37 +244,37 @@ require_once __DIR__ . '/html/header.php';
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
             <label class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <?php echo $checkout->shipping->fullname ?>
+                <?php echo htmlspecialchars($checkout->shipping->fullname) ?>
             </label>
         </div>
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Shipping Address</label>
             <label class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <?php echo $checkout->shipping->address ?>
+                <?php echo htmlspecialchars($checkout->shipping->address) ?>
             </label>
         </div>
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
             <label class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <?php echo $checkout->shipping->city ?>
+                <?php echo htmlspecialchars($checkout->shipping->city) ?>
             </label>
         </div>
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Zip Code</label>
             <label class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <?php echo $checkout->shipping->zipcode ?>
+                <?php echo htmlspecialchars($checkout->shipping->zipcode) ?>
             </label>
         </div>
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
             <label class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <?php echo $checkout->shipping->country ?>
+                <?php echo htmlspecialchars($checkout->shipping->country) ?>
             </label>
         </div>
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
             <label class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <?php echo $checkout->shipping->phone_number ?>
+                <?php echo htmlspecialchars($checkout->shipping->phone_number) ?>
             </label>
         </div>
     </div>
@@ -284,19 +284,19 @@ require_once __DIR__ . '/html/header.php';
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
             <label class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <?php echo $checkout->billing->card_owner ?>
+                <?php echo htmlspecialchars($checkout->billing->card_owner) ?>
             </label>
         </div>
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Card Number</label>
             <label class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <?php echo $checkout->billing->card_number ?>
+                <?php echo htmlspecialchars($checkout->billing->card_number) ?>
             </label>
         </div>
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Expiry Date</label>
             <label class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <?php echo $checkout->billing->expiry_date ?>
+                <?php echo htmlspecialchars($checkout->billing->expiry_date) ?>
             </label>
         </div>
     </div>
