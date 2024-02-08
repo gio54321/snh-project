@@ -5,18 +5,19 @@ services:
     image: nginx:1.15-alpine
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - ./src:/var/www/html
+      - /etc/letsencrypt:/etc/letsencrypt
     restart: always
-
+    
   php-fpm:
     user: www-data
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./src:/var/www/html
       - logs:/log
     
     environment:
