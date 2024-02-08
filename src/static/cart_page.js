@@ -63,7 +63,7 @@ function renameChildren(node, child_id, new_child_id) {
 
 function __httpGetBookData(book_id, callback) {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "/get_book_info.php?id=" + book_id, true);
+    xmlHttp.open("GET", "/api/book_info.php?id=" + book_id, true);
     xmlHttp.send(null);
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/utils.php';
+require_once __DIR__ . '/../utils.php';
 
 $book_id = $_GET["id"];
 
@@ -17,10 +17,9 @@ if (count($books_matching) == 0) {
 $book = $books_matching[0];
 
 $book_data = array(
-    "title"=> $book['title'],
-    "image"=> $book['image'],
-    "price"=> $book['price'] / 100,
+    "title" => $book['title'],
+    "image" => $book['image'],
+    "price" => $book['price'] / 100,
 );
 
 echo json_encode($book_data);
-?>
