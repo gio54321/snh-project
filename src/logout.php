@@ -7,8 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-session_start();
-
 // check that the user is logged in
 if (!is_logged_in()) {
     header('Location: /');
@@ -16,7 +14,7 @@ if (!is_logged_in()) {
 }
 
 // check that the CSRF token is valid
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+if (!check_csrf_token()) {
     header('Location: /');
     exit;
 }

@@ -8,3 +8,9 @@
 </body>
 
 </html>
+
+<?php
+
+log_info("Get request: '" . $_SERVER['REQUEST_URI'] . "'");
+
+?>
