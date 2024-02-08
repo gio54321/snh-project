@@ -30,7 +30,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./src:/var/www/html #TODO remove in production
-      - ./books:/books
       - logs:/log
     
     environment:
