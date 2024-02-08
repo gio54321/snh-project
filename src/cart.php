@@ -2,11 +2,19 @@
 require_once __DIR__ . '/utils.php';
 require_once __DIR__ . '/utils/checkout_utils.php';
 
-function do_checkout() {
+function do_checkout()
+{
     if (!is_logged_in()) {
         log_info_unauth("Checkout from anonymous user, redirect to login.");
 
         header('Location: /login.php', true, 401);
+        exit;
+    }
+
+    if (!check_csrf_token()) {
+        log_warning_auth("Checkout post request invalid CSRF token");
+
+        header('Location: /', true, 403);
         exit;
     }
 
@@ -15,15 +23,16 @@ function do_checkout() {
         log_warning_auth("Checkout data decode error [1]", [
             "data" => $data
         ]);
-        
+
         http_response_code(400);
         exit;
     }
-    
+
     foreach ($data as $pair) {
-        if (!isset($pair[0]) || !isset($pair[1]) ||
-            !is_numeric($pair[0]) || !is_numeric($pair[0]))
-        {
+        if (
+            !isset($pair[0]) || !isset($pair[1]) ||
+            !is_numeric($pair[0]) || !is_numeric($pair[0])
+        ) {
             log_warning_auth("Checkout data decode error [2]", [
                 "data" => $data
             ]);
@@ -44,7 +53,7 @@ function do_checkout() {
     log_info_auth("Checkout request success");
 
     set_checkout_next_step("checkout_login");
-    header('Location: /checkout_login.php');
+    header('Location: /checkout/login.php');
     exit;
 }
 
@@ -85,18 +94,12 @@ require_once __DIR__ . '/html/header.php';
                     <td id="title_example" class="px-6 py-4 w-80 font-semibold text-gray-900 dark:text-white"></td>
                     <td class="px-6 py-4">
                         <div>
-                            <input type="number" id="input_example"
-                                class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                value="" required min=0 max=10
-                                oninput="updateItem(<?php echo $book['id'] ?>, <?php echo $book['price'] / 100 ?>);"
-                            >
+                            <input type="number" id="input_example" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" required min=0 max=10 oninput="updateItem(<?php echo $book['id'] ?>, <?php echo $book['price'] / 100 ?>);">
                         </div>
                     </td>
                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white" id="price_example"></td>
                     <td class="px-6 py-4">
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            id="remove_example"
-                        >Remove</button>
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" id="remove_example">Remove</button>
                     </td>
                 </tr>
             </tbody>
@@ -109,9 +112,8 @@ require_once __DIR__ . '/html/header.php';
                     <td class="px-6 py-4"></td>
                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white" id="total_price"></td>
                     <td class="px-6 py-4">
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            onclick="checkout();"
-                        >Checkout</button>
+                        <input type="hidden" name="csrf_token" id="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="checkout();">Checkout</button>
                     </td>
                 </tr>
             </tfoot>

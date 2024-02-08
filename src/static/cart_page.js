@@ -5,7 +5,7 @@ function buildTable() {
         console.log("table not found");
         return;
     }
-    
+
     if (table_elem == null) {
         console.log("table_elem not found");
         return;
@@ -58,15 +58,14 @@ function renameChildren(node, child_id, new_child_id) {
             child.id = new_child_id;
         else
             renameChildren(child, child_id, new_child_id);
-    }      
+    }
 }
 
-function __httpGetBookData(book_id, callback)
-{
+function __httpGetBookData(book_id, callback) {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "/get_book_info.php?id=" + book_id, true);
-    xmlHttp.send( null );
-    xmlHttp.onreadystatechange = function() { 
+    xmlHttp.open("GET", "/get_book_info.php?id=" + book_id, true);
+    xmlHttp.send(null);
+    xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
             callback(JSON.parse(xmlHttp.responseText));
     }
@@ -92,12 +91,12 @@ function updateTotal() {
     var items = getItems();
     for (const [book_id, quantity] of items.entries()) {
         var price_str = document.getElementById("price_" + book_id).innerText;
-        var price = Number(price_str.split(" ")[0]); 
+        var price = Number(price_str.split(" ")[0]);
         total += price;
     }
 
     var total_price_item = document.getElementById("total_price");
-    total_price_item.innerHTML = (total).toLocaleString(undefined, { minimumFractionDigits: 2 }) + " €";   
+    total_price_item.innerHTML = (total).toLocaleString(undefined, { minimumFractionDigits: 2 }) + " €";
 }
 
 function checkout() {
@@ -113,7 +112,8 @@ function checkout() {
             console.log(`Error: ${xhr.status}`);
         }
     };
-    xhr.send("items=" + __getCart().toJson());
+    const csrf_token = document.getElementById("csrf_token").value;
+    xhr.send("csrf_token=" + csrf_token + "&items=" + __getCart().toJson());
 }
 
 buildTable()
