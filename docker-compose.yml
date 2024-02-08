@@ -24,13 +24,14 @@ services:
   #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
   php-fpm:
+    user: www-data
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./src:/var/www/html
+      - ./src:/var/www/html #TODO remove in production
       - ./books:/books
-      - ./log:/log
+      - logs:/log
     
     environment:
       MYSQL_USER: root
@@ -53,3 +54,4 @@ services:
 
 volumes:
   db_data:
+  logs:
