@@ -144,7 +144,7 @@ require_once __DIR__ . '/html/header.php';
     </ol>
     <div class="p-8 border-2 border-gray-200 border-dashed rounded-lg w-full md:w-2/5 mx-4">
         <h2 class="text-3xl font-extrabold mb-6">Re-authenticate<?php if ($username !== "") {
-                                                                    echo ': ' . $username;
+                                                                    echo ': ' . htmlspecialchars($username);
                                                                 } ?></h2>
 
         <?php if ($error !== "") { ?>
