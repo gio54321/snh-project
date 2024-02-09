@@ -4,6 +4,8 @@ RUN apt update && apt install -y git procps
 # install pdo for mysql
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
+COPY ./src /var/www/html
+
 RUN mkdir /log
 RUN chown -R www-data:www-data /log
 
