@@ -112,8 +112,12 @@ function checkout() {
             console.log(`Error: ${xhr.status}`);
         }
     };
-    const csrf_token = document.getElementById("csrf_token").value;
-    xhr.send("csrf_token=" + csrf_token + "&items=" + __getCart().toJson());
+    const csrf_token_input = document.getElementById("csrf_token");
+    let csrf_token_params = "";
+    if (csrf_token_input !== null) {
+        csrf_token_params = "csrf_token=" + csrf_token_input.value + "&";
+    }
+    xhr.send(csrf_token_params + "items=" + __getCart().toJson());
 }
 
 buildTable()

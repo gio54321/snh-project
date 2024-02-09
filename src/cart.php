@@ -7,14 +7,14 @@ function do_checkout()
     if (!is_logged_in()) {
         log_info_unauth("Checkout from anonymous user, redirect to login.");
 
-        header('Location: /login.php', true, 401);
+        header('Location: /login.php', true, 200);
         exit;
     }
 
     if (!check_csrf_token()) {
         log_warning_auth("Checkout post request invalid CSRF token");
 
-        header('Location: /', true, 403);
+        header('Location: /', true, 200);
         exit;
     }
 
@@ -112,7 +112,9 @@ require_once __DIR__ . '/html/header.php';
                     <td class="px-6 py-4"></td>
                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white" id="total_price"></td>
                     <td class="px-6 py-4">
-                        <input type="hidden" name="csrf_token" id="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+                        <?php if (is_logged_in()) { ?>
+                            <input type="hidden" name="csrf_token" id="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
+                        <?php } ?>
                         <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="checkout();">Checkout</button>
                     </td>
                 </tr>
