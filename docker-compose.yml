@@ -24,6 +24,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       SENDGRID_EMAIL: ${SENDGRID_EMAIL}
+      DOMAIN_NAME: "localhost"
     restart: always
 
   db:

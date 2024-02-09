@@ -43,11 +43,12 @@ function do_register()
         return;
     }
 
+    $domain_name = $_ENV['DOMAIN_NAME'];
     $verification_token = bin2hex(random_bytes(32));
     if (!send_mail(
         $email,
         "YASBS - Verify your account",
-        "Click http://localhost/verify_account.php?token=$verification_token to verify your account"
+        "Click <a href=\"http://$domain_name/verify_account.php?token=$verification_token\">here< to verify your account"
     )) {
         // assume that if the email is not sent, the email is not valid
         $error = "Invalid email";
