@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/utils.php';
+require_once __DIR__ . '/utils/validation.php';
 
 $error = "";
 
@@ -38,8 +39,37 @@ function do_register()
         return;
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!validate_email($email)) {
         $error = "Invalid email";
+        return;
+    }
+
+    $username_already_used = execute_query(
+        'SELECT id from users where username=:username',
+        [
+            'username' => $username
+        ]
+    )->fetchAll();
+
+    if (count($username_already_used) > 0) {
+        $error = "Username already used";
+        return;
+    }
+
+    $email_already_used = execute_query(
+        'SELECT id from users where email=:email',
+        [
+            'email' => $email
+        ]
+    )->fetchAll();
+
+    if (count($email_already_used) > 0) {
+        $error = "Email already used";
+        return;
+    }
+
+    if (!validate_password_strength($password)) {
+        $error = "Password not strong enough";
         return;
     }
 
@@ -48,15 +78,12 @@ function do_register()
     if (!send_mail(
         $email,
         "YASBS - Verify your account",
-        "Click <a href=\"http://$domain_name/verify_account.php?token=$verification_token\">here< to verify your account"
+        "Click <a href=\"http://$domain_name/verify_account.php?token=$verification_token\">here</a> to verify your account"
     )) {
         // assume that if the email is not sent, the email is not valid
         $error = "Invalid email";
         return;
     }
-
-    // TODO check password strength
-    // TODO check if username or email already exists, very important for security!
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -97,7 +124,7 @@ require_once __DIR__ . '/html/header.php';
         <form action="/register.php" method="post">
             <div class="mb-6">
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
-                <input type="username" id="username" name="username" , class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Mario" required>
+                <input type="username" id="username" name="username" , class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="mario.rossi" required>
             </div>
             <div class="mb-6">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email address</label>
@@ -112,7 +139,11 @@ require_once __DIR__ . '/html/header.php';
                 <input type="password" id="confirm_password" name="confirm_password" , class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="•••••••••" required>
             </div>
 
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full md:w-auto px-5 py-2.5 text-center">Register</button>
+            <div class="flex items-start mt-6">
+                <span class="text-sm text-gray-900">Password must be at least 8 characters, and must contain at least an uppercase letter, a lowercase letter and a number.</span>
+            </div>
+
+            <button type="submit" class="mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full md:w-auto px-5 py-2.5 text-center">Register</button>
         </form>
     </div>
 </div>

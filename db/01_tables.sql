@@ -7,6 +7,10 @@ CREATE TABLE IF NOT EXISTS `users`(
     `password` CHAR(64) NOT NULL,
     `verified` BOOLEAN NOT NULL DEFAULT FALSE,
     `verification_token` CHAR(64) DEFAULT NULL,
+    `reset_password_token` CHAR(64) DEFAULT NULL,
+    `unsuccessful_login_attempts` INT NOT NULL DEFAULT 0,
+    `locked` BOOLEAN NOT NULL DEFAULT FALSE,
+    `unlock_token` CHAR(64) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) CHARACTER SET=utf8mb4;
 
