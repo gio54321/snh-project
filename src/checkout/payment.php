@@ -2,6 +2,7 @@
 $checkout_procedure_page = 0;
 require_once __DIR__ . '/../utils.php';
 require_once __DIR__ . '/../utils/checkout_utils.php';
+require_once __DIR__ . '/../utils/validation.php';
 
 $error = "";
 
@@ -45,6 +46,30 @@ function checkout_payment()
         log_info_auth("Checkout payment post request invalid fields");
 
         $error = "Invalid fields";
+        http_response_code(400);
+        return;
+    }
+
+    if (!validate_card_number($_POST['card_number'])) {
+        log_info_auth("Checkout payment post request card number");
+
+        $error = "Invalid card number";
+        http_response_code(400);
+        return;
+    }
+
+    if (!validate_card_expiration($_POST['date'])) {
+        log_info_auth("Checkout payment post request invalid expiration date");
+
+        $error = "Invalid expiration date";
+        http_response_code(400);
+        return;
+    }
+
+    if (!validate_card_cvv($_POST['secret_code'])) {
+        log_info_auth("Checkout payment post request invalid secret code");
+
+        $error = "Invalid secret code";
         http_response_code(400);
         return;
     }
