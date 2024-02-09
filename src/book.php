@@ -72,11 +72,12 @@ require_once __DIR__ . '/html/header.php';
             <br>
             <form action="/download_book.php" method="get">
                 <input type="hidden" name="id" value="<?php echo $book_id; ?>" />
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="addToCart(<?php echo $book['id'] ?>);">Add to cart</button>
                 <?php if ($owned) { ?>
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                         Download
                     </button>
+                <?php } else { ?>
+                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="addToCart(<?php echo $book['id'] ?>);">Add to cart</button>
                 <?php } ?>
             </form>
         </div>
