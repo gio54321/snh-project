@@ -85,7 +85,7 @@ require_once __DIR__ . '/../utils.php';
             </li>
           <?php } else { ?>
             <li>
-              <a href="/profile.php?user=<?php echo htmlspecialchars($_SESSION['username']) ?>" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Profile</a>
+              <a href="/profile.php" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">Profile</a>
             </li>
             <li>
               <form method="post" action="/logout.php">
