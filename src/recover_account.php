@@ -36,7 +36,7 @@ function do_recover_account()
 
     $token = bin2hex(random_bytes(32));
 
-    $domain_name = $_SERVER['HTTP_HOST'];
+    $domain_name = $_ENV['DOMAIN_NAME'];
     send_mail(
         $email,
         "YASBS - Recover your account",

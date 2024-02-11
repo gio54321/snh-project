@@ -27,7 +27,6 @@ function handle_unsuccessful_login($user_id)
             'unlock_token' => hash('sha256', $unlock_token)
         ]);
 
-        $domain_name = $_SERVER['HTTP_HOST'];
         $domain_name = $_ENV['DOMAIN_NAME'];
         send_mail(
             $email,
