@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/utils.php';
 
-
 if (!is_logged_in()) {
     log_warning_unauth("Profile page get request from anonymous user");
 
@@ -15,8 +14,6 @@ $owned_books = execute_query(
         "user_id" => $_SESSION['user_id']
     ]
 )->fetchAll();
-
-
 
 require_once __DIR__ . '/html/header.php';
 ?>

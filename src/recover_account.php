@@ -11,6 +11,8 @@ function do_recover_account()
     if (
         !isset($_POST['email'])
     ) {
+        log_warning_unauth("Recover account request missing email field");
+
         $error = "Missing fields";
         return;
     }
@@ -21,6 +23,8 @@ function do_recover_account()
         !is_string($email) ||
         !filter_var($email, FILTER_VALIDATE_EMAIL)
     ) {
+        log_warning_unauth("Recover account request invalid email field");
+        
         $error = "Invalid fields";
         return;
     }
@@ -30,6 +34,8 @@ function do_recover_account()
     ])->fetch();
 
     if (!$user) {
+        log_warning_unauth("Recover account request user not found");
+
         // return silently
         return;
     }
@@ -46,6 +52,11 @@ function do_recover_account()
     execute_query('UPDATE users SET reset_password_token = :token WHERE id = :id', [
         'token' => hash('sha256', $token),
         'id' => $user['id']
+    ]);
+
+    log_info_unauth("Successfully sent recover account email.", [
+        "user_id" => $user['id'],
+        "username" => $user['username']
     ]);
 }
 

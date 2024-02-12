@@ -2,6 +2,8 @@
 require_once __DIR__ . '/utils.php';
 
 if (!isset($_GET['q']) || !is_string($_GET['q'])) {
+    log_info("Search page query not set");
+
     header('Location: /');
     exit;
 }

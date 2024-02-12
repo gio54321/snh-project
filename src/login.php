@@ -16,6 +16,11 @@ function handle_unsuccessful_login($user_id)
     $attempts = $user['unsuccessful_login_attempts'];
     $email = $user['email'];
 
+    log_info_unauth("User attempted to log in " . strval($attempts) . " times.", [
+        "user_id" => $user_id,
+        "username" => $user['username']
+    ]);
+
     if ($attempts === 2) {
         execute_query('UPDATE users SET unsuccessful_login_attempts = 0 WHERE id=:user_id', [
             'user_id' => $user_id
@@ -33,6 +38,11 @@ function handle_unsuccessful_login($user_id)
             "YASBS - Unlock your account",
             "Click <a href='http://$domain_name/unlock_account.php?token=$unlock_token'>here</a> to unlock your account"
         );
+
+        log_warning_unauth("User locked for too many unsuccessful login attempts", [
+            "user_id" => $user_id,
+            "username" => $user['username']
+        ]);
 
         $error = "Too many unsuccessful login attempts, check your email to unlock the account";
         return false;
@@ -56,6 +66,7 @@ function do_login()
         !isset($_POST['username']) ||
         !isset($_POST['password'])
     ) {
+        log_info_unauth("Missing fields in login request");
         $error = "Missing fields";
         return;
     }
@@ -67,6 +78,7 @@ function do_login()
         !is_string($username) ||
         !is_string($password)
     ) {
+        log_info_unauth("Invalid fields in login request");
         $error = "Invalid fields";
         return;
     }
@@ -76,16 +88,28 @@ function do_login()
     ])->fetch();
 
     if (!$user) {
+        log_info_unauth("Invalid credentials in login request, user not found");
+
         $error = "Invalid credentials";
         return;
     }
 
     if (!$user['verified']) {
+        log_info_unauth("Login requested from unverified account", [
+            "user_id" => $user_id,
+            "username" => $user['username']
+        ]);
+
         $error = "Account not verified, please check your email";
         return;
     }
 
     if ($user['locked']) {
+        log_warning_unauth("Login requested from locked account", [
+            "user_id" => $user_id,
+            "username" => $user['username']
+        ]);
+
         $error = "Account locked, check your email to unlock it";
         return;
     }
@@ -94,6 +118,8 @@ function do_login()
         if (!handle_unsuccessful_login($user['id'])) {
             return;
         }
+        
+        log_info_unauth("Invalid credentials in login request, password doesn't match");
 
         $error = "Invalid credentials";
         return;
@@ -105,6 +131,8 @@ function do_login()
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+    log_info_auth("User logged in successfully.");
 
     header('Location: /');
     exit;

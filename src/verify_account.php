@@ -1,13 +1,17 @@
 <?php
+require_once __DIR__ . '/utils.php';
+
 if (!isset($_GET['token'])) {
+    log_info_unauth("Validation request missing token");
+
     die('Missing parameters');
 }
-
-require_once __DIR__ . '/utils.php';
 
 $token = $_GET['token'];
 
 if (!is_string($token)) {
+    log_info_unauth("Validation request invalid token [1]");
+
     die('Invalid parameters');
 }
 
@@ -18,11 +22,18 @@ $user = execute_query('SELECT * FROM users WHERE verification_token = :token', [
 ])->fetch();
 
 if (!$user) {
+    log_info_unauth("Validation request missing token [2]");
+
     die('Invalid token');
 }
 
 execute_query('UPDATE users SET verified = 1, verification_token=NULL WHERE id = :id', [
     'id' => $user['id']
+]);
+
+log_info_unauth("Validation request success", [
+    "user_id" => $user['id'],
+    "username" => $user['username']
 ]);
 
 require_once __DIR__ . '/html/header.php';

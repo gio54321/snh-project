@@ -15,6 +15,8 @@ function do_register()
         !isset($_POST['password']) ||
         !isset($_POST['confirm_password'])
     ) {
+        log_info_unauth("Register request missing fields");
+        
         $error = "Missing fields";
         return;
     }
@@ -30,16 +32,22 @@ function do_register()
         !is_string($password) ||
         !is_string($confirm_password)
     ) {
+        log_info_unauth("Register request invalid fields");
+
         $error = "Invalid fields";
         return;
     }
 
     if ($password !== $confirm_password) {
+        log_info_unauth("Register request password and confirm password fields do not match");
+
         $error = "Passwords do not match";
         return;
     }
 
     if (!validate_email($email)) {
+        log_info_unauth("Register request invalid email.");
+
         $error = "Invalid email";
         return;
     }
@@ -52,6 +60,8 @@ function do_register()
     )->fetchAll();
 
     if (count($username_already_used) > 0) {
+        log_info_unauth("Register request username already used.");
+
         $error = "Username already used";
         return;
     }
@@ -64,11 +74,15 @@ function do_register()
     )->fetchAll();
 
     if (count($email_already_used) > 0) {
+        log_info_unauth("Register request email already used.");
+
         $error = "Email already used";
         return;
     }
 
     if (!validate_password_strength($password)) {
+        log_info_unauth("Register request password strength check fail");
+
         $error = "Password not strong enough";
         return;
     }
@@ -81,6 +95,8 @@ function do_register()
         "Click <a href=\"http://$domain_name/verify_account.php?token=$verification_token\">here</a> to verify your account"
     )) {
         // assume that if the email is not sent, the email is not valid
+        log_info_unauth("Register request verify email not sent");
+    
         $error = "Invalid email";
         return;
     }
@@ -95,9 +111,15 @@ function do_register()
     ]);
 
     if (!$result) {
+        log_info_unauth("Register request registration error");
+
         $error = "Error in the registration";
         return;
     }
+
+    log_info_unauth("Registration successful", [
+        "username" => $username
+    ]);
 
     header('Location: /login.php');
     exit;

@@ -1,13 +1,17 @@
 <?php
+require_once __DIR__ . '/utils.php';
+
 if (!isset($_GET['token'])) {
+    log_info_unauth("Unlock account request missing token");
+
     die('Missing parameters');
 }
-
-require_once __DIR__ . '/utils.php';
 
 $token = $_GET['token'];
 
 if (!is_string($token)) {
+    log_info_unauth("Unlock account request invalid token [1]");
+
     die('Invalid parameters');
 }
 
@@ -18,11 +22,18 @@ $user = execute_query('SELECT * FROM users WHERE unlock_token = :token', [
 ])->fetch();
 
 if (!$user) {
+    log_info_unauth("Unlock account request invalid token [2]");
+
     die('Invalid token');
 }
 
 execute_query('UPDATE users SET locked = 0, unlock_token=NULL WHERE id = :id', [
     'id' => $user['id']
+]);
+
+log_info_unauth("Account unlocked", [
+    "user_id" => $user['id'],
+    "username" => $user['username']
 ]);
 
 require_once __DIR__ . '/html/header.php';

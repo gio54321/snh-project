@@ -14,6 +14,8 @@ function do_reset_password()
         !isset($_POST['confirm_password']) ||
         !isset($_POST['token'])
     ) {
+        log_info_unauth("Reset password request missing fields");
+
         $error = "Missing fields";
         return;
     }
@@ -27,6 +29,8 @@ function do_reset_password()
         !is_string($confirm_password) ||
         !is_string($token)
     ) {
+        log_info_unauth("Reset password request invalid fields");
+
         $error = "Invalid fields";
         return;
     }
@@ -36,16 +40,28 @@ function do_reset_password()
     ])->fetch();
 
     if (!$user) {
+        log_info_unauth("Reset password request invalid reset password token");
+
         $error = "Invalid token";
         return;
     }
 
     if ($password !== $confirm_password) {
+        log_info_unauth("Reset password password and confirm password fields do not match.", [
+            "user_id" => $user['id'],
+            "username" => $user['username']
+        ]);
+
         $error = "Passwords do not match";
         return;
     }
 
     if (!validate_password_strength($password)) {
+        log_info_unauth("Reset password request new password strength check failed", [
+            "user_id" => $user['id'],
+            "username" => $user['username']
+        ]);
+
         $error = "Password not strong enough";
         return;
     }
@@ -55,6 +71,11 @@ function do_reset_password()
     execute_query('UPDATE users SET reset_password_token=NULL, password=:password WHERE id = :id', [
         'id' => $user['id'],
         'password' => $hashed_password
+    ]);
+
+    log_info_unauth("Reset password request successful", [
+        "user_id" => $user['id'],
+        "username" => $user['username']
     ]);
 
     header('Location: /login.php');
