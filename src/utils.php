@@ -1,5 +1,9 @@
 <?php
+
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', 1);
 session_start();
+
 date_default_timezone_set('UTC');
 
 //if the variable '$checkout_procedure_page' is not set (any value is fine), forcefully unset the checkout csrf token
