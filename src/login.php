@@ -118,7 +118,7 @@ function do_login()
         if (!handle_unsuccessful_login($user['id'])) {
             return;
         }
-        
+
         log_info_unauth("Invalid credentials in login request, password doesn't match");
 
         $error = "Invalid credentials";
@@ -163,7 +163,7 @@ require_once __DIR__ . '/html/header.php';
 
         <form action="/login.php" method="post">
             <div class="mb-6">
-                <label for="username" class="block mb-2 text-sm font-medium text-gray-900">email address</label>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900">Username</label>
                 <input type="username" id="username" name="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="mario.rossi" required>
             </div>
             <div class="mb-6">
