@@ -53,25 +53,25 @@ require_once __DIR__ . '/html/header.php';
 <div class="flex items-center justify-center mt-10 mb-10">
     <div class="grid grid-cols-2 gap-4">
         <div class="grid place-items-center ml-32">
-            <img style="height: 36rem;" class="p-8 rounded-t-lg" src="<?php echo $book["image"] ?>" alt="product image" />
+            <img style="height: 36rem;" class="p-8 rounded-t-lg" src="<?php echo htmlspecialchars($book["image"]) ?>" alt="product image" />
         </div>
         <div class="px-5 pt-8 mr-32">
             <h2 class="text-3xl font-bold tracking-tight text-gray-900">
-                <?php echo $book['title'] ?>
+                <?php echo htmlspecialchars($book['title']) ?>
             </h2>
 
             <span class="text-3xl text-gray-900">
-                <?php echo $book['price'] / 100 ?> €
+                <?php echo htmlspecialchars($book['price']) / 100 ?> €
             </span>
 
             <br>
             <div class="mt-8">
                 <h5 class="text-xl font-semibold text-gray-800">Description</h5>
-                <p class="text-justify"><?php echo $book['description'] ?></p>
+                <p class="text-justify"><?php echo htmlspecialchars($book['description']) ?></p>
             </div>
             <br>
             <form action="/download_book.php" method="get">
-                <input type="hidden" name="id" value="<?php echo $book_id; ?>" />
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($book_id) ?>" />
                 <?php if ($owned) { ?>
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
                         Download

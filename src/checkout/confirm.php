@@ -208,18 +208,18 @@ require_once __DIR__ . '/../html/header.php';
                 <?php foreach ($books as $book) { ?>
                     <tr class="bg-white border-b">
                         <td class="p-4">
-                            <img src="<?php echo $book['image'] ?>" class="w-16 md:w-24 max-w-full max-h-full rounded-lg" alt="product image">
+                            <img src="<?php echo htmlspecialchars($book['image']) ?>" class="w-16 md:w-24 max-w-full max-h-full rounded-lg" alt="product image">
                         </td>
                         <td class="px-6 py-4 w-80 font-semibold text-gray-900">
-                            <?php echo $book['title'] ?>
+                            <?php echo htmlspecialchars($book['title']) ?>
                         </td>
                         <td class="px-6 py-4">
-                            <?php echo $book['quantity'] ?>
+                            <?php echo htmlspecialchars($book['quantity']) ?>
                         </td>
                         <td class="px-6 py-4 font-semibold text-gray-900">
                             <?php $value = ($book['quantity'] * $book['price'] / 100);
                             $total += $value;
-                            echo $value . " €"; ?>
+                            echo htmlspecialchars($value . " €"); ?>
                         </td>
                     </tr>
                 <?php } ?>
@@ -232,7 +232,7 @@ require_once __DIR__ . '/../html/header.php';
                     </td>
                     <td class="px-6 py-4"></td>
                     <td class="px-6 py-4 font-semibold text-gray-900">
-                        <?php echo $total . " €" ?>
+                        <?php echo htmlspecialchars($total . " €") ?>
                     </td>
                 </tr>
             </tfoot>

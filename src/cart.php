@@ -87,14 +87,14 @@ require_once __DIR__ . '/html/header.php';
                 </tr>
             </thead>
             <tbody id="cart_table_body">
-                <tr id="cart_table_example" class="bg-white border-b" id="book_<?php echo $book["id"] ?>">
+                <tr id="cart_table_example" class="bg-white border-b" id="book_<?php echo htmlspecialchars($book["id"]) ?>">
                     <td class="p-4">
                         <img id="image_example" src="" class="w-16 md:w-24 max-w-full max-h-full rounded-lg" alt="product image">
                     </td>
                     <td id="title_example" class="px-6 py-4 w-80 font-semibold text-gray-900"></td>
                     <td class="px-6 py-4">
                         <div>
-                            <input type="number" id="input_example" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1" value="" required min=0 max=10 oninput="updateItem(<?php echo $book['id'] ?>, <?php echo $book['price'] / 100 ?>);">
+                            <input type="number" id="input_example" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1" value="" required min=0 max=10 oninput="updateItem(<?php echo htmlspecialchars($book['id']) ?>, <?php echo htmlspecialchars($book['price']) / 100 ?>);">
                         </div>
                     </td>
                     <td class="px-6 py-4 font-semibold text-gray-900" id="price_example"></td>
