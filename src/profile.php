@@ -27,6 +27,9 @@ require_once __DIR__ . '/html/header.php';
             <h5 class="text-xl font-medium text-gray-900">
                 <?php echo htmlspecialchars($_SESSION['username']) ?>
             </h5>
+            <a href="/change_password.php">
+                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mt-4">Change password</button>
+            </a>
         </div>
     </div>
     <span class="font-bold text-2xl mb-4 mt-16"> Owned books </span>
