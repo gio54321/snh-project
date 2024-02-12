@@ -1,5 +1,5 @@
 function buildTable() {
-    var table_elem = document.getElementById('cart_table_example').cloneNode(true);
+    var table_elem = document.getElementById('cart_table_example');
     var table = document.getElementById('cart_table_body');
     if (table == null) {
         console.log("table not found");
@@ -10,6 +10,8 @@ function buildTable() {
         console.log("table_elem not found");
         return;
     }
+    
+    table_elem = table_elem.cloneNode(true);
 
     table.innerHTML = null;
     var items = getItems();
@@ -119,5 +121,3 @@ function checkout() {
     }
     xhr.send(csrf_token_params + "items=" + __getCart().toJson());
 }
-
-buildTable()

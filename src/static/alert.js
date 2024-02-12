@@ -12,5 +12,3 @@ function hideAlert() {
 function hideAlertTimed(millis) {
     setTimeout(hideAlert, millis);
 }
-
-hideAlert();
