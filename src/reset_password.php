@@ -87,8 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
-} else {
+} elseif (isset($_POST['token'])) {
     $token = $_POST['token'];
+} else {
+    log_info_unauth("Reset password request missing token");
+    header('Location: /');
+    exit;
 }
 
 require_once __DIR__ . '/html/header.php';
