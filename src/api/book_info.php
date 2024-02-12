@@ -22,4 +22,5 @@ $book_data = array(
     "price" => $book['price'] / 100,
 );
 
+header('Content-Type: application/json');
 echo json_encode($book_data);
