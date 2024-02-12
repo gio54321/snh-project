@@ -19,7 +19,7 @@ function do_checkout()
     }
 
     $data = json_decode($_POST['items']);
-    if ($data === null || !is_array($data)) {
+    if ($data === null || !is_array($data) || count($data) == 0) {
         log_warning_auth("Checkout data decode error [1]", [
             "data" => $data
         ]);
