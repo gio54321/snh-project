@@ -48,11 +48,12 @@ require_once __DIR__ . '/html/header.php';
                             <?php echo htmlspecialchars($book['title']) ?>
                         </h5>
                     </a>
-                    <div class="flex items-center justify-between mt-4">
-                        <span class="text-3xl text-gray-900">
-                            <?php echo htmlspecialchars($book['price'] / 100) ?> €
-                        </span>
-                    </div>
+                    <form action="/download_book.php" method="get" class="mt-5 text-right">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($book['id']) ?>" />
+                        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                            Download
+                        </button>
+                    </form>
                 </div>
             </div>
         <?php } ?>
