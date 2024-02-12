@@ -22,7 +22,6 @@ header('X-Frame-Options: DENY');
 header('X-XSS-Protection: 1; mode=block');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
-header("Content-Security-Policy: default-src 'self'; font-src self fonts.gstatic.com data:; img-src 'self'; style-src 'self' cdn.tailwindcss.com https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline'; script-src 'self'; script-src-elem 'self' https://cdnjs.cloudflare.com https://cdn.tailwindcss.com/;");
 header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
 
 // singleton class for database connection

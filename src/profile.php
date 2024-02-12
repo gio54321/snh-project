@@ -24,10 +24,10 @@ require_once __DIR__ . '/html/header.php';
 <div class="flex flex-col items-center justify-center mt-10 mb-10">
     <span class="font-bold text-2xl mb-4"> Profile </span>
 
-    <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 pt-8">
+    <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow pt-8">
         <div class="flex flex-col items-center pb-8">
             <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="/static/profile.webp" alt="Profile picture" />
-            <h5 class="text-xl font-medium text-gray-900 dark:text-white">
+            <h5 class="text-xl font-medium text-gray-900">
                 <?php echo htmlspecialchars($_SESSION['username']) ?>
             </h5>
         </div>
