@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `users`(
     `verification_token` CHAR(64) DEFAULT NULL,
     `reset_password_token` CHAR(64) DEFAULT NULL,
     `unsuccessful_login_attempts` INT NOT NULL DEFAULT 0,
+    `unsuccessful_login_timestap` TIMESTAMP NOT NULL DEFAULT '1970-01-01 00:00:01',
     `locked` BOOLEAN NOT NULL DEFAULT FALSE,
     `unlock_token` CHAR(64) DEFAULT NULL,
     PRIMARY KEY (`id`)

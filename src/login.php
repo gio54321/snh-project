@@ -8,6 +8,8 @@ $error = "";
 function handle_unsuccessful_login($user_id)
 {
     global $error;
+    $lockout_rate = DateInterval::createFromDateString('30 minutes');
+    $attempt_timestamp = date_create_immutable();
 
     $user = execute_query('SELECT * FROM users WHERE id=:user_id', [
         'user_id' => $user_id
@@ -16,14 +18,33 @@ function handle_unsuccessful_login($user_id)
     $attempts = $user['unsuccessful_login_attempts'];
     $email = $user['email'];
 
-    log_info_unauth("User attempted to log in " . strval($attempts) . " times.", [
+    $oldest_attempt = date_create_immutable($user['unsuccessful_login_timestap']);
+    $lockout_time = $oldest_attempt->add($lockout_rate);
+    if ($lockout_time < $attempt_timestamp) {
+        log_info_unauth("User attempted to log in 1 times.", [
+            "user_id" => $user_id,
+            "username" => $user['username'],
+            "oldest_attempt" => date_format($attempt_timestamp, 'Y-m-d H:i:s')
+        ]);
+
+        execute_query('UPDATE users SET unsuccessful_login_attempts = 1, unsuccessful_login_timestap = :date WHERE id=:user_id', [
+            'user_id' => $user['id'],
+            'date' => date_format($attempt_timestamp, 'Y-m-d H:i:s')
+        ]);
+
+        return true;
+    }
+
+    log_info_unauth("User attempted to log in " . strval($attempts + 1) . " times.", [
         "user_id" => $user_id,
-        "username" => $user['username']
+        "username" => $user['username'],
+        "oldest_attempt" => date_format($oldest_attempt, 'Y-m-d H:i:s')
     ]);
 
     if ($attempts === 2) {
-        execute_query('UPDATE users SET unsuccessful_login_attempts = 0 WHERE id=:user_id', [
-            'user_id' => $user_id
+        execute_query('UPDATE users SET unsuccessful_login_attempts = 0, unsuccessful_login_timestap = :date WHERE id=:user_id', [
+            'user_id' => $user['id'],
+            'date' => '1970-01-01 00:00:01'
         ]);
 
         $unlock_token = bin2hex(random_bytes(32));
@@ -124,6 +145,12 @@ function do_login()
         $error = "Invalid credentials";
         return;
     }
+
+    // reset unsuccessful login attempts
+    execute_query('UPDATE users SET unsuccessful_login_attempts = 0, unsuccessful_login_timestap = :date WHERE id=:user_id', [
+        'user_id' => $user['id'],
+        'date' => '1970-01-01 00:00:01'
+    ]);
 
     // create a new session
     session_reset();
