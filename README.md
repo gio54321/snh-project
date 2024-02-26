@@ -1,7 +1,13 @@
 # YASBS - Yet Another Secure Book Shop
+Final project for Systems and Network hacking course @ University of Pisa.
+
+## Authors
+- Giorgio Dell'Immagine
+- Yuri Andriaccio
+
+## Building and running
 
 To run the application, first create a `.env` file, then download dependencies by
-
 
 ```
 cd src
